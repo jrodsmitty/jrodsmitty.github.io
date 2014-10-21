@@ -1,4 +1,0 @@
-jrodsmitty.github.io
-====================
-
-Blog
