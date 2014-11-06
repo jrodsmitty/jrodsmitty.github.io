@@ -89,7 +89,25 @@
 
 <p><img src="/images/add-here-bug.png" title="[100%] [auto] [Page Editor Bug [Page Editor Bug]]" ></p>
 
-<p>In the webedit.css file, line 604, I changed &ldquo;height: 11px;&rdquo; to &ldquo;height: 24px;&rdquo; and that fixed the issue.</p>
+<p>In the webedit.css file, line 604, I changed &ldquo;height: 11px;&rdquo; to &ldquo;height: 24px;&rdquo; and that fixed the issue.  The complete modified class looks like:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>.scInsertionHandleCenter
+</span><span class='line'>{
+</span><span class='line'>    background: transparent url('/sitecore/shell/themes/standard/images/pageeditor/move_to_here_center.png') repeat-x;
+</span><span class='line'>    float: left;
+</span><span class='line'>    height: 24px;
+</span><span class='line'>    padding-top: 3px;
+</span><span class='line'>    padding-bottom: 9px;
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
 
 <p><img src="/images/add-here-bug-fixed.png" title="[100%] [auto] [Page Editor Bug Fix [Page Editor Bug Fix]]" ></p>
 
