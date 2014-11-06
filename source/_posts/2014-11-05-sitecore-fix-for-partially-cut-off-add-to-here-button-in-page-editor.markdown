@@ -10,7 +10,17 @@ Ever since we first installed Sitecore 7.2 rev. 140228 (first release), we have 
 
 {% img /images/add-here-bug.png [100%] [auto] [Page Editor Bug [Page Editor Bug]] %}
 
-In the webedit.css file, line 604, I changed "height: 11px;" to "height: 24px;" and that fixed the issue.
+In the webedit.css file, line 604, I changed "height: 11px;" to "height: 24px;" and that fixed the issue.  The complete modified class looks like:
+```CSS
+.scInsertionHandleCenter
+{
+    background: transparent url('/sitecore/shell/themes/standard/images/pageeditor/move_to_here_center.png') repeat-x;
+    float: left;
+    height: 24px;
+    padding-top: 3px;
+    padding-bottom: 9px;
+}
+```
 
 {% img /images/add-here-bug-fixed.png [100%] [auto] [Page Editor Bug Fix [Page Editor Bug Fix]] %}
 
