@@ -5,12 +5,12 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Ramblings of a Hybrid Web Developer</title>
+  <title>Resolving JQuery Conflicts in Page Editor - Ramblings of a Hybrid Web Developer</title>
   <meta name="author" content="Jarrod Smith">
 
   
-  <meta name="description" content="In the current project I&rsquo;m working on, we are using Bootstrap&rsquo;s &ldquo;collapse&rdquo; functionality (http://getbootstrap.com/javascript &hellip;">
-  
+  <meta name="description" content="Resolving JQuery Conflicts in Page Editor">
+  <meta name="keywords" content="Sitecore, JQuery, Page Editor">
 
   <!-- http://t.co/dKP3o1e -->
   <meta name="HandheldFriendly" content="True">
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://jrodsmitty.github.io">
+  <link rel="canonical" href="http://jrodsmitty.github.io/blog/2014/11/12/resolving-jquery-conflicts-in-page-editor">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="Ramblings of a Hybrid Web Developer" type="application/atom+xml">
@@ -73,15 +73,12 @@
 </nav>
   <div id="main">
     <div id="content">
-      <div class="blog-index">
+      <div>
+<article class="hentry" role="article">
   
-  
-  
-    <article>
-      
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2014/11/12/resolving-jquery-conflicts-in-page-editor/">Resolving JQuery Conflicts in Page Editor</a></h1>
+      <h1 class="entry-title">Resolving JQuery Conflicts in Page Editor</h1>
     
     
       <p class="meta">
@@ -97,7 +94,7 @@
   </header>
 
 
-  <div class="entry-content"><p>In the current project I&rsquo;m working on, we are using Bootstrap&rsquo;s &ldquo;collapse&rdquo; functionality (<a href="http://getbootstrap.com/javascript/#collapse">http://getbootstrap.com/javascript/#collapse</a>) for some of our components. Our requirements dictate that all accordions on the page be in the collapsed state, so in &ldquo;Edit&rdquo; mode of Page Editor, we&rsquo;d like them all expanded for ease of editing. The easiest way to accomplish this is to check for the PageMode, and execute some JQuery code to .collapse(&lsquo;show&rsquo;) all accordions on the page.</p>
+<div class="entry-content"><p>In the current project I&rsquo;m working on, we are using Bootstrap&rsquo;s &ldquo;collapse&rdquo; functionality (<a href="http://getbootstrap.com/javascript/#collapse">http://getbootstrap.com/javascript/#collapse</a>) for some of our components. Our requirements dictate that all accordions on the page be in the collapsed state, so in &ldquo;Edit&rdquo; mode of Page Editor, we&rsquo;d like them all expanded for ease of editing. The easiest way to accomplish this is to check for the PageMode, and execute some JQuery code to .collapse(&lsquo;show&rsquo;) all accordions on the page.</p>
 
 <p>This seems like a fairly simple task (assuming we know JQuery decently well), but we run into some issues because our page&rsquo;s layout is using JQuery 2.1.1, but Sitecore loads JQuery 1.10.2 when using Page Editor, so we run into a JQuery version conflict, and in our case, all our calls to $(element).on(&lsquo;click&rsquo;, function() {..}) fail, because 1.10.2 doesn&rsquo;t support the .on() method.</p>
 
@@ -196,116 +193,54 @@
 
 <p>Although it feels dirty re-including jquery like this, if you really need to be using a different version of JQuery other than what Sitecore includes, this is (at least one) workable way to accomplish that.</p>
 </div>
-  
-  
 
 
-    </article>
-  
-  
-    <article>
+  <footer>
+    <p class="meta">
       
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/11/05/sitecore-fix-for-partially-cut-off-add-to-here-button-in-page-editor/">Sitecore Fix: Partially-cut-off &#8216;Add to Here&#8217; Button in Page Editor</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2014-11-05T22:40:39-06:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>5</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>10:40 pm</span></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Ever since we first installed Sitecore 7.2 rev. 140228 (first release), we have noticed an odd visual bug in Page Editor. We have since uninstall/reinstalled to be at the latest release: 7.2 rev. 140526. However, we still see the issue. There appears to be a small rectangular &ldquo;knock-out&rdquo; overlaying the bottom edge of the &ldquo;Add to here&rdquo; button. I was able to track it down to the &ldquo;webedit.css&rdquo; file in the root /Website folder where Sitecore is installed.</p>
-
-<p><img src="/images/add-here-bug.png" title="[100%] [auto] [Page Editor Bug [Page Editor Bug]]" ></p>
-
-<p>In the webedit.css file, line 604, I changed &ldquo;height: 11px;&rdquo; to &ldquo;height: 24px;&rdquo; and that fixed the issue.</p>
-
-<p><img src="/images/add-here-bug-fixed.png" title="[100%] [auto] [Page Editor Bug Fix [Page Editor Bug Fix]]" ></p>
-
-<h3>UPDATE (11/6/14)</h3>
-
-<p>I contacted Sitecore support about this bug, and they weren&rsquo;t able to reproduce the issue with a clean install of 7.2. I thought that was kind of odd, since I have also noticed the bug during a demo of Sitecore 8 at the Milwaukee Sitecore Meetup group. The presenter was demoing the Experience Editor (previously Page Editor), and lo and behold, there it was!</p>
-
-<p>After sending more information to Sitecore support, it turns out that the issue was/is caused by using &ldquo;border-box&rdquo; instead of &ldquo;content-box&rdquo; on some of their UI elements. We are using Bootstrap, which via its styles, was applying &ldquo;content-box&rdquo; to the element with the &ldquo;.scInsertionHandleCenter&rdquo; class.</p>
-
-<p>The two recommended solution(s) from Sitecore are:</p>
-
-<ol>
-<li>Remove box-sizing: border-box for * or div from site.min.css if possible.</li>
-<li>Add the following style in your site&rsquo;s design CSS:</li>
-</ol>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>.scInsertionHandleCenter 
-</span><span class='line'>{
-</span><span class='line'>  box-sizing: content-box !important;
-</span><span class='line'>  -webkit-box-sizing: content-box !important; 
-</span><span class='line'>  -moz-box-sizing: content-box !important; 
-</span><span class='line'> }</span></code></pre></td></tr></table></div></figure>
-
-</div>
-  
   
 
+<span class="byline author vcard">Posted by <span class="fn">Jarrod Smith</span></span>
 
-    </article>
-  
-  
-    <article>
       
-  <header>
+
+
+
+
+<time class='entry-date' datetime='2014-11-12T19:49:03-06:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>12</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>7:49 pm</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/jquery/'>jquery</a>, <a class='category' href='/blog/categories/page-editor/'>page editor</a>, <a class='category' href='/blog/categories/sitecore/'>sitecore</a>
+  
+</span>
+
+
+    </p>
     
-      <h1 class="entry-title"><a href="/blog/2014/11/04/blog-manifesto/">Blog Manifesto</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2014-11-04T22:31:00-06:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>4</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>10:31 pm</span></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>On many occasions over the last nine years I have found myself facing all flavors of weird browser quirks, software quirks, and many other head-bashing frustrations. Had I had the forethought to document all the solutions to my problems as they occurred, I might already have helped many others outside my immediate dev team avoid the same frustrations I/we had.</p>
-
-<p>My hope for this blog is that I do just that - share my frustrations, learnings, and solutions to all sorts of problems I face on a daily basis, with practical, working examples that you can actually use to solve your problems.</p>
-
-<p>Per my experience and interests, I&rsquo;d categorize myself as a hybrid (Front-End / Back-End) developer. I have worked at a number of digital marketing agencies over the years, working with a wide variety of tools, and have gained some training/certifications along the way too (both a Kentico and Sitecore certified developer). My latest escapades bring me to C#.NET MVC (w/ Razor, of course!) and Sitecore CMS. Many of my posts will focus on Sitecore development, but I plan to branch off from time to time to venture into other topics as well.</p>
-
-<p>I hope you find some useful nuggets in my blog. Happy coding!</p>
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://jrodsmitty.github.io/blog/2014/11/12/resolving-jquery-conflicts-in-page-editor/" data-via="jrodsmitty" data-counturl="http://jrodsmitty.github.io/blog/2014/11/12/resolving-jquery-conflicts-in-page-editor/" >Tweet</a>
+  
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
 </div>
-  
-  
 
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2014/11/05/sitecore-fix-for-partially-cut-off-add-to-here-button-in-page-editor/" title="Previous Post: Sitecore Fix: Partially-cut-off 'Add to here' button in Page Editor">&laquo; Sitecore Fix: Partially-cut-off &#8216;Add to here&#8217; button in Page Editor</a>
+      
+      
+    </p>
+  </footer>
+</article>
 
-    </article>
-  
-  <div class="pagination">
-    
-    <a href="/blog/archives">Blog Archives</a>
-    
-  </div>
 </div>
+
 <aside class="sidebar">
   
     <section>
@@ -362,6 +297,7 @@
 
   
 </aside>
+
 
     </div>
   </div>
