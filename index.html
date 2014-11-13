@@ -99,12 +99,41 @@
 
   <div class="entry-content"><p>Ever since we first installed Sitecore 7.2 rev. 140228 (first release), we have noticed an odd visual bug in Page Editor. We have since uninstall/reinstalled to be at the latest release: 7.2 rev. 140526. However, we still see the issue. There appears to be a small rectangular &ldquo;knock-out&rdquo; overlaying the bottom edge of the &ldquo;Add to here&rdquo; button. I was able to track it down to the &ldquo;webedit.css&rdquo; file in the root /Website folder where Sitecore is installed.</p>
 
+<p><img src="/images/add-here-bug.png" title="[100%] [auto] [Page Editor Bug [Page Editor Bug]]" ></p>
+
+<p>In the webedit.css file, line 604, I changed &ldquo;height: 11px;&rdquo; to &ldquo;height: 24px;&rdquo; and that fixed the issue.</p>
+
+<p><img src="/images/add-here-bug-fixed.png" title="[100%] [auto] [Page Editor Bug Fix [Page Editor Bug Fix]]" ></p>
+
+<h2>UPDATE (11/6/14)</h2>
+
+<p>I contacted Sitecore support about this bug, and they weren&rsquo;t able to reproduce the issue with a clean install of 7.2. I thought that was kind of odd, since I have also noticed the bug during a demo of Sitecore 8 at the Milwaukee Sitecore Meetup group. The presenter was demoing the Experience Editor (previously Page Editor), and lo and behold, there it was!</p>
+
+<p>After sending more information to Sitecore support, it turns out that the issue was/is caused by using &ldquo;border-box&rdquo; instead of &ldquo;content-box&rdquo; on some of their UI elements. We are using Bootstrap, which via its styles, was applying &ldquo;content-box&rdquo; to the element with the &ldquo;.scInsertionHandleCenter&rdquo; class.</p>
+
+<p>The two recommended solution(s) from Sitecore are:</p>
+
+<ol>
+<li>Remove box-sizing: border-box for * or div from site.min.css if possible.</li>
+<li>Add the following style in your site&rsquo;s design CSS:</li>
+</ol>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>.scInsertionHandleCenter 
+</span><span class='line'>{
+</span><span class='line'>  box-sizing: content-box !important;
+</span><span class='line'>  -webkit-box-sizing: content-box !important; 
+</span><span class='line'>  -moz-box-sizing: content-box !important; 
+</span><span class='line'> }</span></code></pre></td></tr></table></div></figure>
+
 </div>
   
-  
-    <footer>
-      <a rel="full-article" href="/blog/2014/11/05/sitecore-fix-for-partially-cut-off-add-to-here-button-in-page-editor/">Read on &rarr;</a>
-    </footer>
   
 
 
@@ -135,12 +164,11 @@
 
 <p>My hope for this blog is that I do just that - share my frustrations, learnings, and solutions to all sorts of problems I face on a daily basis, with practical, working examples that you can actually use to solve your problems.</p>
 
+<p>Per my experience and interests, I&rsquo;d categorize myself as a hybrid (Front-End / Back-End) developer. I have worked at a number of digital marketing agencies over the years, working with a wide variety of tools, and have gained some training/certifications along the way too (both a Kentico and Sitecore certified developer). My latest escapades bring me to C#.NET MVC (w/ Razor, of course!) and Sitecore CMS. Many of my posts will focus on Sitecore development, but I plan to branch off from time to time to venture into other topics as well.</p>
+
+<p>I hope you find some useful nuggets in my blog. Happy coding!</p>
 </div>
   
-  
-    <footer>
-      <a rel="full-article" href="/blog/2014/11/04/blog-manifesto/">Read on &rarr;</a>
-    </footer>
   
 
 
