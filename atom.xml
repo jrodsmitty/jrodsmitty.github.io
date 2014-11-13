@@ -4,7 +4,7 @@
   <title><![CDATA[Ramblings of a Hybrid Web Developer]]></title>
   <link href="http://jrodsmitty.github.io/atom.xml" rel="self"/>
   <link href="http://jrodsmitty.github.io/"/>
-  <updated>2014-11-12T19:40:13-06:00</updated>
+  <updated>2014-11-12T19:44:33-06:00</updated>
   <id>http://jrodsmitty.github.io/</id>
   <author>
     <name><![CDATA[Jarrod Smith]]></name>
@@ -26,7 +26,7 @@
 
 <p><img src="http://jrodsmitty.github.io/images/add-here-bug-fixed.png" title="[100%] [auto] [Page Editor Bug Fix [Page Editor Bug Fix]]" ></p>
 
-<h2>UPDATE (11/6/14)</h2>
+<h3>UPDATE (11/6/14)</h3>
 
 <p>I contacted Sitecore support about this bug, and they weren&rsquo;t able to reproduce the issue with a clean install of 7.2. I thought that was kind of odd, since I have also noticed the bug during a demo of Sitecore 8 at the Milwaukee Sitecore Meetup group. The presenter was demoing the Experience Editor (previously Page Editor), and lo and behold, there it was!</p>
 
