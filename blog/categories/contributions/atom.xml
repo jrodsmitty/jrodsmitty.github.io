@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Contributions | Ramblings of a Hybrid Web Developer]]></title>
+  <link href="http://jrodsmitty.github.io/blog/categories/contributions/atom.xml" rel="self"/>
+  <link href="http://jrodsmitty.github.io/"/>
+  <updated>2014-12-23T21:45:38-06:00</updated>
+  <id>http://jrodsmitty.github.io/</id>
+  <author>
+    <name><![CDATA[Jarrod Smith]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Submitting a Module to the Sitecore Marketplace]]></title>
+    <link href="http://jrodsmitty.github.io/blog/2014/12/23/submitting-a-module-to-the-sitecore-marketplace/"/>
+    <updated>2014-12-23T20:33:56-06:00</updated>
+    <id>http://jrodsmitty.github.io/blog/2014/12/23/submitting-a-module-to-the-sitecore-marketplace</id>
+    <content type="html"><![CDATA[<blockquote><p>I recently released my first module on the Sitecore Marketplace. It&rsquo;s a super-simple, highly portable Facebook Like Button MVC View Rendering (<a href="https://marketplace.sitecore.net/Modules/Facebook_Like_Button.aspx">https://marketplace.sitecore.net/Modules/Facebook_Like_Button.aspx</a>).</p></blockquote>
+
+<h2>I Started By Setting Some Ground Rules</h2>
+
+<p>For this exercise, I laid out a couple ground rules for myself, so I could actually finish something. Like many developers, I add some features, refactor, add some more stuff, set it aside awhile, forget about it, and then when I come back to it, it&rsquo;s not relevant anymore and I scrap it. These are the rules I set for myself.</p>
+
+<h3>1. Choosing something easy (but annoying) to implement every time it&rsquo;s needed</h3>
+
+<p>I often get asked to include a Facebook Like button in the footer of a site. Sure, it&rsquo;s a copy and paste thing, but it&rsquo;s still mind-numbing work, and it&rsquo;s still not editable by a content author. It would be nice to have it editable (and translatable for a multi-site setup so you can have a different &ldquo;like&rdquo; url for different languages, for instance).</p>
+
+<h3>2. Following the KISS principle</h3>
+
+<p>Since there was so little logic with the solution for this, I really didn&rsquo;t feel it warranted putting the logic in a Controller or storing the field values in a Model, which would have generated an output .dll. This decision had the side benefit of allowing a developer to easily modify the code if needed, since  all the logic lives in the .cshtml file itself in the /Views folder.</p>
+
+<h3>3. Setting a deadline</h3>
+
+<p>Due to many half-done and forgotton pet projects in my past, I chose to give myself a tight deadline so I would be forced to manage scope. I work well against tight deadlines at work, so why would I tend to be so extreme the opposite for personal projects? I chose a limit of 8 hours or less for this.</p>
+
+<h3>4. Submitting to the Marketplace</h3>
+
+<p>The submission process was easy. You give a name to your module, add a description, some screenshots, documentation as needed, upload your .zip package file, and you&rsquo;re done. Then a Sitecore employee tests your module, and once they confirm it works as advertised, they approve and publish it. Not too complicated.</p>
+
+<h3>Completed</h3>
+
+<p>At the end of the day, that module does only one thing really well, but it met all the criteria I had laid out. I got my feet wet, and know what to expect next time.</p>
+]]></content>
+  </entry>
+  
+</feed>
