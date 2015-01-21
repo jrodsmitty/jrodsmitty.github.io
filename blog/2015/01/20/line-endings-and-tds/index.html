@@ -5,12 +5,12 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Blog Manifesto - Web Dev Ramblin&#8217; Man</title>
+  <title>Team Development for Sitecore (TDS), GitHub, TeamCity, and Line Endings, Oh My! - Web Dev Ramblin&#8217; Man</title>
   <meta name="author" content="Jarrod Smith">
 
   
-  <meta name="description" content="On many occasions over the last nine years I have found myself facing all flavors of weird browser quirks, software quirks, and many other head- &hellip;">
-  
+  <meta name="description" content="Length of field content does not match the content-length attribute Our development team has been running into a lot of situations lately where TDS &hellip;">
+  <meta name="keywords" content="Sitecore, GitHub, TeamCity, TDS, Team Development for Sitecore, Line Endings, CRLF, Gotchas">
 
   <!-- http://t.co/dKP3o1e -->
   <meta name="HandheldFriendly" content="True">
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://jrodsmitty.github.io/blog/2014/11/04/blog-manifesto">
+  <link rel="canonical" href="http://jrodsmitty.github.io/blog/2015/01/20/line-endings-and-tds">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="Web Dev Ramblin' Man" type="application/atom+xml">
@@ -81,7 +81,7 @@
   
   <header>
     
-      <h1 class="entry-title">Blog Manifesto</h1>
+      <h1 class="entry-title">Team Development for Sitecore (TDS), GitHub, TeamCity, and Line Endings, Oh My!</h1>
     
     
       <p class="meta">
@@ -90,20 +90,43 @@
 
 
 
-<time class='entry-date' datetime='2014-11-04T22:31:00-06:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>4</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>10:31 pm</span></time>
+<time class='entry-date' datetime='2015-01-20T22:57:57-06:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>20</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>10:57 pm</span></time>
         
       </p>
     
   </header>
 
 
-<div class="entry-content"><p>On many occasions over the last nine years I have found myself facing all flavors of weird browser quirks, software quirks, and many other head-bashing frustrations. Had I had the forethought to document all the solutions to my problems as they occurred, I might already have helped many others outside my immediate dev team avoid the same frustrations I/we had.</p>
+<div class="entry-content"><blockquote><p>Length of field content does not match the content-length attribute</p></blockquote>
 
-<p>My hope for this blog is that I do just that - share my frustrations, learnings, and solutions to all sorts of problems I face on a daily basis, with practical, working examples that you can actually use to solve your problems.</p>
+<p>Our development team has been running into a lot of situations lately where TDS items in our project are showing up as changed, when nobody had changed anything. The message we were seeing was something like: &ldquo;Failed to load version 1 for language en
+Length of field content does not match the content-length attribute. Field name: Value, field id: {C8B4641D-C20D-4424-84B3-5ED37AF9CD33}&rdquo;</p>
 
-<p>Per my experience and interests, I&rsquo;d categorize myself as a hybrid (Front-End / Back-End) developer. I have worked at a number of digital marketing agencies over the years, working with a wide variety of tools, and have gained some training/certifications along the way too (both a Kentico and Sitecore certified developer). My latest escapades bring me to C#.NET MVC (w/ Razor, of course!) and Sitecore CMS. Many of my posts will focus on Sitecore development, but I plan to branch off from time to time to venture into other topics as well.</p>
+<h2>First Try (fix content-length in *.item files)</h2>
 
-<p>I hope you find some useful nuggets in my blog. Happy coding!</p>
+<p>After some Googling, we found an article that mentioned the error we were seeing (<a href="https://theagilecoder.wordpress.com/2013/03/02/tds-so-youre-deploying-sitecore-to-a-new-environment/">https://theagilecoder.wordpress.com/2013/03/02/tds-so-youre-deploying-sitecore-to-a-new-environment/</a>) and we were able to fix the issues manually as they came up, by editing the *.item files and updating the content-length value(s). We did this for awhile, but the issue kept coming back, and we were all getting pretty frustrated.</p>
+
+<h2>Git &lsquo;er Done! (make .gitattributes smarter)</h2>
+
+<p>After reaching out to Hedgehog Development, who makes the TDS product, we confirmed (as we had suspected) that the issue had to do with line endings getting changed at some point in the process. We were directed to a really helpful article by Sean Kearney (<a href="http://seankearney.com/post/Using-Team-Development-for-Sitecore-with-GitHub">http://seankearney.com/post/Using-Team-Development-for-Sitecore-with-GitHub</a>) which tells you to add a line to your .gitattributes file that says &ldquo;*.item -text&rdquo; . So all will we swell then, right? Well, if you have any previous files that still contain mixed LF and CRLF (which are what cause that error), you&rsquo;ll want to normalize those to all use CRLF only (if on Windows, in our case). Sublime Text has a nice plugin called &ldquo;Line Endings Unify&rdquo; that will let you batch update files to normalize the line endings.</p>
+
+<h2>Final Piece (TeamCity plugin setting)</h2>
+
+<p>So updating our .gitattributes file seemed to fix our issues. That is, until we added TeamCity into the mix. We didn&rsquo;t have problems locally anymore, but when TeamCity was checking out the latest files from our GitHub repo, it was failing to build the TDS package. It was failing with the same error as before. After more head bashing and another email or two to Hedgehog Development, we learned that we needed to enable the &ldquo;convert line endings to CRLF&rdquo; in the Git VCS plugin settings for TeamCity (<a href="https://confluence.jetbrains.com/display/TCD8/Git+%28JetBrains%29">https://confluence.jetbrains.com/display/TCD8/Git+%28JetBrains%29</a>).</p>
+
+<h2>The Aftermath</h2>
+
+<p>It&rsquo;s only been a week since we implemented this fix, but so far we haven&rsquo;t seen this error come up again. We have a bunch of developers working constantly during the day on project features - branches are getting pull-requested, merged, built, deployed, and so far, no issues with line endings. We can only hope the worst is behind us.</p>
+
+<h2>Sources</h2>
+
+<ul>
+<li><a href="https://theagilecoder.wordpress.com/2013/03/02/tds-so-youre-deploying-sitecore-to-a-new-environment/">https://theagilecoder.wordpress.com/2013/03/02/tds-so-youre-deploying-sitecore-to-a-new-environment/</a></li>
+<li><a href="http://seankearney.com/post/Using-Team-Development-for-Sitecore-with-GitHub">http://seankearney.com/post/Using-Team-Development-for-Sitecore-with-GitHub</a></li>
+<li><a href="https://confluence.jetbrains.com/display/TCD8/Git+%28JetBrains%29">https://confluence.jetbrains.com/display/TCD8/Git+%28JetBrains%29</a></li>
+<li>The great support team at Hedgehog Development (<a href="&#x6d;&#x61;&#x69;&#x6c;&#x74;&#111;&#58;&#x73;&#x75;&#112;&#112;&#x6f;&#x72;&#x74;&#x40;&#104;&#104;&#x6f;&#103;&#100;&#101;&#118;&#x2e;&#99;&#x6f;&#x6d;">&#x73;&#x75;&#x70;&#112;&#x6f;&#114;&#116;&#64;&#104;&#104;&#x6f;&#103;&#100;&#x65;&#x76;&#46;&#x63;&#111;&#x6d;</a>)</li>
+</ul>
+
 </div>
 
 
@@ -119,15 +142,21 @@
 
 
 
-<time class='entry-date' datetime='2014-11-04T22:31:00-06:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>4</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>10:31 pm</span></time>
+<time class='entry-date' datetime='2015-01-20T22:57:57-06:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>20</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>10:57 pm</span></time>
       
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/github/'>github</a>, <a class='category' href='/blog/categories/gotchas/'>gotchas</a>, <a class='category' href='/blog/categories/sitecore/'>sitecore</a>, <a class='category' href='/blog/categories/tds/'>tds</a>, <a class='category' href='/blog/categories/teamcity/'>teamcity</a>
+  
+</span>
 
 
     </p>
     
       <div class="sharing">
   
-  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://jrodsmitty.github.io/blog/2014/11/04/blog-manifesto/" data-via="jrodsmitty" data-counturl="http://jrodsmitty.github.io/blog/2014/11/04/blog-manifesto/" >Tweet</a>
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://jrodsmitty.github.io/blog/2015/01/20/line-endings-and-tds/" data-via="jrodsmitty" data-counturl="http://jrodsmitty.github.io/blog/2015/01/20/line-endings-and-tds/" >Tweet</a>
   
   
   
@@ -138,8 +167,8 @@
     
     <p class="meta">
       
+        <a class="basic-alignment left" href="/blog/2014/12/23/submitting-a-module-to-the-sitecore-marketplace/" title="Previous Post: Submitting a Module to the Sitecore Marketplace">&laquo; Submitting a Module to the Sitecore Marketplace</a>
       
-        <a class="basic-alignment right" href="/blog/2014/11/05/sitecore-fix-for-partially-cut-off-add-to-here-button-in-page-editor/" title="Next Post: Sitecore Fix: Partially-cut-off 'Add to here' button in Page Editor">Sitecore Fix: Partially-cut-off &#8216;Add to here&#8217; button in Page Editor &raquo;</a>
       
     </p>
   </footer>
