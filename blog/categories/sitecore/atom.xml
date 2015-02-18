@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Sitecore | Web Dev Ramblin' Man]]></title>
   <link href="http://jrodsmitty.github.io/blog/categories/sitecore/atom.xml" rel="self"/>
   <link href="http://jrodsmitty.github.io/"/>
-  <updated>2015-02-17T21:19:30-06:00</updated>
+  <updated>2015-02-17T21:24:24-06:00</updated>
   <id>http://jrodsmitty.github.io/</id>
   <author>
     <name><![CDATA[Jarrod Smith]]></name>
@@ -18,7 +18,10 @@
     <link href="http://jrodsmitty.github.io/blog/2015/01/20/line-endings-and-tds/"/>
     <updated>2015-01-20T22:57:57-06:00</updated>
     <id>http://jrodsmitty.github.io/blog/2015/01/20/line-endings-and-tds</id>
-    <content type="html"><![CDATA[<blockquote><p>Length of field content does not match the content-length attribute</p></blockquote>
+    <content type="html"><![CDATA[<!-- more -->
+
+
+<blockquote><p>Length of field content does not match the content-length attribute</p></blockquote>
 
 <h2>Update - 2/17/2015:</h2>
 
@@ -70,7 +73,7 @@ Length of field content does not match the content-length attribute. Field name:
 <li><a href="https://theagilecoder.wordpress.com/2013/03/02/tds-so-youre-deploying-sitecore-to-a-new-environment/">https://theagilecoder.wordpress.com/2013/03/02/tds-so-youre-deploying-sitecore-to-a-new-environment/</a></li>
 <li><a href="http://seankearney.com/post/Using-Team-Development-for-Sitecore-with-GitHub">http://seankearney.com/post/Using-Team-Development-for-Sitecore-with-GitHub</a></li>
 <li><a href="https://confluence.jetbrains.com/display/TCD8/Git+%28JetBrains%29">https://confluence.jetbrains.com/display/TCD8/Git+%28JetBrains%29</a></li>
-<li>The great support team at Hedgehog Development (<a href="&#109;&#97;&#x69;&#x6c;&#116;&#111;&#58;&#115;&#x75;&#112;&#x70;&#x6f;&#x72;&#116;&#x40;&#x68;&#104;&#x6f;&#x67;&#100;&#x65;&#x76;&#46;&#99;&#111;&#109;">&#115;&#117;&#x70;&#112;&#x6f;&#114;&#x74;&#x40;&#104;&#104;&#x6f;&#x67;&#x64;&#101;&#x76;&#x2e;&#x63;&#111;&#109;</a>)</li>
+<li>The great support team at Hedgehog Development (<a href="&#109;&#97;&#x69;&#x6c;&#x74;&#111;&#x3a;&#115;&#x75;&#112;&#x70;&#x6f;&#114;&#116;&#x40;&#104;&#104;&#x6f;&#103;&#x64;&#101;&#x76;&#46;&#x63;&#111;&#109;">&#x73;&#x75;&#112;&#x70;&#111;&#x72;&#116;&#64;&#x68;&#x68;&#x6f;&#103;&#x64;&#x65;&#118;&#x2e;&#99;&#111;&#109;</a>)</li>
 </ul>
 
 ]]></content>
@@ -81,7 +84,10 @@ Length of field content does not match the content-length attribute. Field name:
     <link href="http://jrodsmitty.github.io/blog/2014/12/23/submitting-a-module-to-the-sitecore-marketplace/"/>
     <updated>2014-12-23T20:33:56-06:00</updated>
     <id>http://jrodsmitty.github.io/blog/2014/12/23/submitting-a-module-to-the-sitecore-marketplace</id>
-    <content type="html"><![CDATA[<blockquote><p>I recently released my first module on the Sitecore Marketplace. It&rsquo;s a super-simple, highly portable Facebook Like Button MVC View Rendering (<a href="https://marketplace.sitecore.net/Modules/Facebook_Like_Button.aspx">https://marketplace.sitecore.net/Modules/Facebook_Like_Button.aspx</a>).</p></blockquote>
+    <content type="html"><![CDATA[<!-- more -->
+
+
+<blockquote><p>I recently released my first module on the Sitecore Marketplace. It&rsquo;s a super-simple, highly portable Facebook Like Button MVC View Rendering (<a href="https://marketplace.sitecore.net/Modules/Facebook_Like_Button.aspx">https://marketplace.sitecore.net/Modules/Facebook_Like_Button.aspx</a>).</p></blockquote>
 
 <h2>I Started By Setting Some Ground Rules</h2>
 
@@ -114,7 +120,10 @@ Length of field content does not match the content-length attribute. Field name:
     <link href="http://jrodsmitty.github.io/blog/2014/11/12/resolving-jquery-conflicts-in-page-editor/"/>
     <updated>2014-11-12T19:49:03-06:00</updated>
     <id>http://jrodsmitty.github.io/blog/2014/11/12/resolving-jquery-conflicts-in-page-editor</id>
-    <content type="html"><![CDATA[<p>In the current project I&rsquo;m working on, we are using Bootstrap&rsquo;s &ldquo;collapse&rdquo; functionality (<a href="http://getbootstrap.com/javascript/#collapse">http://getbootstrap.com/javascript/#collapse</a>) for some of our components. Our requirements dictate that all accordions on the page be in the collapsed state, so in &ldquo;Edit&rdquo; mode of Page Editor, we&rsquo;d like them all expanded for ease of editing. The easiest way to accomplish this is to check for the PageMode, and execute some JQuery code to .collapse(&lsquo;show&rsquo;) all accordions on the page.</p>
+    <content type="html"><![CDATA[<!-- more -->
+
+
+<p>In the current project I&rsquo;m working on, we are using Bootstrap&rsquo;s &ldquo;collapse&rdquo; functionality (<a href="http://getbootstrap.com/javascript/#collapse">http://getbootstrap.com/javascript/#collapse</a>) for some of our components. Our requirements dictate that all accordions on the page be in the collapsed state, so in &ldquo;Edit&rdquo; mode of Page Editor, we&rsquo;d like them all expanded for ease of editing. The easiest way to accomplish this is to check for the PageMode, and execute some JQuery code to .collapse(&lsquo;show&rsquo;) all accordions on the page.</p>
 
 <p>This seems like a fairly simple task (assuming we know JQuery decently well), but we run into some issues because our page&rsquo;s layout is using JQuery 2.1.1, but Sitecore loads JQuery 1.10.2 when using Page Editor, so we run into a JQuery version conflict, and in our case, all our calls to $(element).on(&lsquo;click&rsquo;, function() {..}) fail, because 1.10.2 doesn&rsquo;t support the .on() method.</p>
 
@@ -227,7 +236,10 @@ Length of field content does not match the content-length attribute. Field name:
     <link href="http://jrodsmitty.github.io/blog/2014/11/05/sitecore-fix-for-partially-cut-off-add-to-here-button-in-page-editor/"/>
     <updated>2014-11-05T22:40:39-06:00</updated>
     <id>http://jrodsmitty.github.io/blog/2014/11/05/sitecore-fix-for-partially-cut-off-add-to-here-button-in-page-editor</id>
-    <content type="html"><![CDATA[<p>Ever since we first installed Sitecore 7.2 rev. 140228 (first release), we have noticed an odd visual bug in Page Editor. We have since uninstall/reinstalled to be at the latest release: 7.2 rev. 140526. However, we still see the issue. There appears to be a small rectangular &ldquo;knock-out&rdquo; overlaying the bottom edge of the &ldquo;Add to here&rdquo; button. I was able to track it down to the &ldquo;webedit.css&rdquo; file in the root /Website folder where Sitecore is installed.</p>
+    <content type="html"><![CDATA[<!-- more -->
+
+
+<p>Ever since we first installed Sitecore 7.2 rev. 140228 (first release), we have noticed an odd visual bug in Page Editor. We have since uninstall/reinstalled to be at the latest release: 7.2 rev. 140526. However, we still see the issue. There appears to be a small rectangular &ldquo;knock-out&rdquo; overlaying the bottom edge of the &ldquo;Add to here&rdquo; button. I was able to track it down to the &ldquo;webedit.css&rdquo; file in the root /Website folder where Sitecore is installed.</p>
 
 <p><img src="/images/add-here-bug.png" title="[100%] [auto] [Page Editor Bug [Page Editor Bug]]" ></p>
 

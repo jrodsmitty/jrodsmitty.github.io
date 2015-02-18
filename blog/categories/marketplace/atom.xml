@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Marketplace | Web Dev Ramblin' Man]]></title>
   <link href="http://jrodsmitty.github.io/blog/categories/marketplace/atom.xml" rel="self"/>
   <link href="http://jrodsmitty.github.io/"/>
-  <updated>2015-02-17T21:19:30-06:00</updated>
+  <updated>2015-02-17T21:24:24-06:00</updated>
   <id>http://jrodsmitty.github.io/</id>
   <author>
     <name><![CDATA[Jarrod Smith]]></name>
@@ -18,7 +18,10 @@
     <link href="http://jrodsmitty.github.io/blog/2014/12/23/submitting-a-module-to-the-sitecore-marketplace/"/>
     <updated>2014-12-23T20:33:56-06:00</updated>
     <id>http://jrodsmitty.github.io/blog/2014/12/23/submitting-a-module-to-the-sitecore-marketplace</id>
-    <content type="html"><![CDATA[<blockquote><p>I recently released my first module on the Sitecore Marketplace. It&rsquo;s a super-simple, highly portable Facebook Like Button MVC View Rendering (<a href="https://marketplace.sitecore.net/Modules/Facebook_Like_Button.aspx">https://marketplace.sitecore.net/Modules/Facebook_Like_Button.aspx</a>).</p></blockquote>
+    <content type="html"><![CDATA[<!-- more -->
+
+
+<blockquote><p>I recently released my first module on the Sitecore Marketplace. It&rsquo;s a super-simple, highly portable Facebook Like Button MVC View Rendering (<a href="https://marketplace.sitecore.net/Modules/Facebook_Like_Button.aspx">https://marketplace.sitecore.net/Modules/Facebook_Like_Button.aspx</a>).</p></blockquote>
 
 <h2>I Started By Setting Some Ground Rules</h2>
 

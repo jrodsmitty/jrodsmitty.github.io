@@ -9,7 +9,7 @@
   <meta name="author" content="Jarrod Smith">
 
   
-  <meta name="description" content="Length of field content does not match the content-length attribute Update - 2/17/2015: So&hellip; although we had thought we solved our LF/CRLF line &hellip;">
+  <meta name="description" content="">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -100,66 +100,12 @@
   </header>
 
 
-  <div class="entry-content"><blockquote><p>Length of field content does not match the content-length attribute</p></blockquote>
-
-<h2>Update - 2/17/2015:</h2>
-
-<p>So&hellip; although we had thought we solved our LF/CRLF line ending problems, they kept appearing again and again when we least expected them. We finally figured out the root cause of this, and put it to rest. The real issue that started this whole ordeal was that our local <strong>.gitconfig</strong> file contained the line &ldquo;autocrlf = true&rdquo;. Whenever we would run a <strong>git add</strong> command, git was replacing all \n (LF - line feed) endings with \r\n (CRLF - carriage return, line feed). TDS serializes everything using LF, and it stores content-length values in the .item files based on that. So when git changes line endings to CRLF, it is effectively adding more characters to a field&rsquo;s value in the .item file, but does not increment the field&rsquo;s content-length value to match. That mis-match of field values to their content-length is what causes the error.</p>
-
-<p>To fix this, we did the following:</p>
-
-<p>1) Updated our .gitconfig files [core] section to have the values &ldquo;autocrlf = false&rdquo; and, just to be explicitly clear, we added &ldquo;eol = lf&rdquo; as well.</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>[core]
-</span><span class='line'>   autocrlf = false
-</span><span class='line'>   eol = lf</span></code></pre></td></tr></table></div></figure>
-
-
-<p>2) Removed all tracked items from our TDS projects</p>
-
-<p>3) Re-added all TDS items, so they got re-serialized with just LF.</p>
-
-<p><em>NOTE:</em>  If you later want git to use auto CRLF replacement on other projects, you would then need to add a <strong>.gitattributes</strong> file at the root of your other project(s) directory, and define &ldquo;eol = crlf&rdquo; instead. See <a href="http://git-scm.com/book/en/v2/Customizing-Git-Git-Attributes">http://git-scm.com/book/en/v2/Customizing-Git-Git-Attributes</a> for more details on .gitattributes files.</p>
-
-<hr />
-
-<h3>What you see below is OLD and OUT-OF-DATE, but it&rsquo;s here if you want to read the original saga</h3>
-
-<hr />
-
-<p>Our development team has been running into a lot of situations lately where TDS items in our project are showing up as changed, when nobody had changed anything. The message we were seeing was something like: &ldquo;Failed to load version 1 for language en
-Length of field content does not match the content-length attribute. Field name: Value, field id: {C8B4641D-C20D-4424-84B3-5ED37AF9CD33}&rdquo;</p>
-
-<h2>First Try (fix content-length in *.item files)</h2>
-
-<p>After some Googling, we found an article that mentioned the error we were seeing (<a href="https://theagilecoder.wordpress.com/2013/03/02/tds-so-youre-deploying-sitecore-to-a-new-environment/">https://theagilecoder.wordpress.com/2013/03/02/tds-so-youre-deploying-sitecore-to-a-new-environment/</a>) and we were able to fix the issues manually as they came up, by editing the *.item files and updating the content-length value(s). We did this for awhile, but the issue kept coming back, and we were all getting pretty frustrated.</p>
-
-<h2>Git &lsquo;er Done! (make .gitattributes smarter)</h2>
-
-<p>After reaching out to Hedgehog Development, who makes the TDS product, we confirmed (as we had suspected) that the issue had to do with line endings getting changed at some point in the process. We were directed to a really helpful article by Sean Kearney (<a href="http://seankearney.com/post/Using-Team-Development-for-Sitecore-with-GitHub">http://seankearney.com/post/Using-Team-Development-for-Sitecore-with-GitHub</a>) which tells you to add a line to your .gitattributes file that says &ldquo;*.item -text&rdquo; . So all will we swell then, right? Well, if you have any previous files that still contain mixed LF and CRLF (which are what cause that error), you&rsquo;ll want to normalize those to all use CRLF only (if on Windows, in our case). Sublime Text has a nice plugin called &ldquo;Line Endings Unify&rdquo; that will let you batch update files to normalize the line endings.</p>
-
-<h2>Final Piece (TeamCity plugin setting)</h2>
-
-<p>So updating our .gitattributes file seemed to fix our issues. That is, until we added TeamCity into the mix. We didn&rsquo;t have problems locally anymore, but when TeamCity was checking out the latest files from our GitHub repo, it was failing to build the TDS package. It was failing with the same error as before. After more head bashing and another email or two to Hedgehog Development, we learned that we needed to enable the &ldquo;convert line endings to CRLF&rdquo; in the Git VCS plugin settings for TeamCity (<a href="https://confluence.jetbrains.com/display/TCD8/Git+%28JetBrains%29">https://confluence.jetbrains.com/display/TCD8/Git+%28JetBrains%29</a>).</p>
-
-<h2>The Aftermath</h2>
-
-<p>It&rsquo;s only been a week since we implemented this fix, but so far we haven&rsquo;t seen this error come up again. We have a bunch of developers working constantly during the day on project features - branches are getting pull-requested, merged, built, deployed, and so far, no issues with line endings. We can only hope the worst is behind us.</p>
-
-<h2>Sources</h2>
-
-<ul>
-<li><a href="https://theagilecoder.wordpress.com/2013/03/02/tds-so-youre-deploying-sitecore-to-a-new-environment/">https://theagilecoder.wordpress.com/2013/03/02/tds-so-youre-deploying-sitecore-to-a-new-environment/</a></li>
-<li><a href="http://seankearney.com/post/Using-Team-Development-for-Sitecore-with-GitHub">http://seankearney.com/post/Using-Team-Development-for-Sitecore-with-GitHub</a></li>
-<li><a href="https://confluence.jetbrains.com/display/TCD8/Git+%28JetBrains%29">https://confluence.jetbrains.com/display/TCD8/Git+%28JetBrains%29</a></li>
-<li>The great support team at Hedgehog Development (<a href="&#109;&#x61;&#x69;&#x6c;&#x74;&#x6f;&#58;&#115;&#x75;&#x70;&#112;&#111;&#x72;&#116;&#64;&#x68;&#104;&#x6f;&#103;&#100;&#101;&#118;&#46;&#x63;&#111;&#109;">&#115;&#117;&#x70;&#112;&#111;&#x72;&#116;&#64;&#104;&#104;&#111;&#103;&#100;&#101;&#118;&#46;&#99;&#x6f;&#x6d;</a>)</li>
-</ul>
-
-</div>
+  <div class="entry-content"></div>
   
+  
+    <footer>
+      <a rel="full-article" href="/blog/2015/01/20/line-endings-and-tds/">Read on &rarr;</a>
+    </footer>
   
 
 
@@ -186,33 +132,12 @@ Length of field content does not match the content-length attribute. Field name:
   </header>
 
 
-  <div class="entry-content"><blockquote><p>I recently released my first module on the Sitecore Marketplace. It&rsquo;s a super-simple, highly portable Facebook Like Button MVC View Rendering (<a href="https://marketplace.sitecore.net/Modules/Facebook_Like_Button.aspx">https://marketplace.sitecore.net/Modules/Facebook_Like_Button.aspx</a>).</p></blockquote>
-
-<h2>I Started By Setting Some Ground Rules</h2>
-
-<p>For this exercise, I laid out a couple ground rules for myself, so I could actually finish something. Like many developers, I add some features, refactor, add some more stuff, set it aside awhile, forget about it, and then when I come back to it, it&rsquo;s not relevant anymore and I scrap it. These are the rules I set for myself.</p>
-
-<h3>1. Choosing something easy (but annoying) to implement every time it&rsquo;s needed</h3>
-
-<p>I often get asked to include a Facebook Like button in the footer of a site. Sure, it&rsquo;s a copy and paste thing, but it&rsquo;s still mind-numbing work, and it&rsquo;s still not editable by a content author. It would be nice to have it editable (and translatable for a multi-site setup so you can have a different &ldquo;like&rdquo; url for different languages, for instance).</p>
-
-<h3>2. Following the KISS principle</h3>
-
-<p>Since there was so little logic with the solution for this, I really didn&rsquo;t feel it warranted putting the logic in a Controller or storing the field values in a Model, which would have generated an output .dll. This decision had the side benefit of allowing a developer to easily modify the code if needed, since  all the logic lives in the .cshtml file itself in the /Views folder.</p>
-
-<h3>3. Setting a deadline</h3>
-
-<p>Due to many half-done and forgotton pet projects in my past, I chose to give myself a tight deadline so I would be forced to manage scope. I work well against tight deadlines at work, so why would I tend to be so extreme the opposite for personal projects? I chose a limit of 8 hours or less for this.</p>
-
-<h3>4. Submitting to the Marketplace</h3>
-
-<p>The submission process was easy. You give a name to your module, add a description, some screenshots, documentation as needed, upload your .zip package file, and you&rsquo;re done. Then a Sitecore employee tests your module, and once they confirm it works as advertised, they approve and publish it. Not too complicated.</p>
-
-<h3>Completed</h3>
-
-<p>At the end of the day, that module does only one thing really well, but it met all the criteria I had laid out. I got my feet wet, and know what to expect next time.</p>
-</div>
+  <div class="entry-content"></div>
   
+  
+    <footer>
+      <a rel="full-article" href="/blog/2014/12/23/submitting-a-module-to-the-sitecore-marketplace/">Read on &rarr;</a>
+    </footer>
   
 
 
@@ -239,106 +164,12 @@ Length of field content does not match the content-length attribute. Field name:
   </header>
 
 
-  <div class="entry-content"><p>In the current project I&rsquo;m working on, we are using Bootstrap&rsquo;s &ldquo;collapse&rdquo; functionality (<a href="http://getbootstrap.com/javascript/#collapse">http://getbootstrap.com/javascript/#collapse</a>) for some of our components. Our requirements dictate that all accordions on the page be in the collapsed state, so in &ldquo;Edit&rdquo; mode of Page Editor, we&rsquo;d like them all expanded for ease of editing. The easiest way to accomplish this is to check for the PageMode, and execute some JQuery code to .collapse(&lsquo;show&rsquo;) all accordions on the page.</p>
-
-<p>This seems like a fairly simple task (assuming we know JQuery decently well), but we run into some issues because our page&rsquo;s layout is using JQuery 2.1.1, but Sitecore loads JQuery 1.10.2 when using Page Editor, so we run into a JQuery version conflict, and in our case, all our calls to $(element).on(&lsquo;click&rsquo;, function() {..}) fail, because 1.10.2 doesn&rsquo;t support the .on() method.</p>
-
-<h2>There are a couple ways to deal with this:</h2>
-
-<ol>
-<li>Give up using a different version of JQuery, and just include and use version 1.10.2 throughout the site.</li>
-<li>Utilize JQuery.noConflict() and some other tricks to get things to work with version 2.1.1.</li>
-</ol>
-
-
-<p>We really wanted to use version 2.x of JQuery since our project requirements let us ignore (for the most part) older browsers, and all the code-bloat in JQuery 1.x that handles older browser quirks for browsers like Internet Explorer has been removed in v2. So for our situation, we chose to go with option 2.</p>
-
-<p>Page Editor loads its version of JQuery after we do during the page rendering (ours is within the head tag), so by the time we call our JQuery code, the global &ldquo;JQuery&rdquo; object now represents the older 1.10.2 version instead of 2.1.1, so our code throws the error &ldquo;Uncaught TypeError: undefined is not a function&rdquo;</p>
-
-<h3>Here was our solution:</h3>
-
-<p><em>NOTE: We&rsquo;re using an MVC view for our component</em></p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>@using Sitecore.Mvc;
-</span><span class='line'>
-</span><span class='line'>&lt;div class="panel panel-default">
-</span><span class='line'>    &lt;div class="panel-heading collapsed" data-toggle="collapse-next" aria-expanded="false">
-</span><span class='line'>        &lt;h4 class="panel-title">
-</span><span class='line'>            @Html.Sitecore().Field("Heading")
-</span><span class='line'>        &lt;/h4>
-</span><span class='line'>    &lt;/div>
-</span><span class='line'>
-</span><span class='line'>    &lt;div class="panel-collapse collapse">
-</span><span class='line'>        &lt;div class="panel-body">
-</span><span class='line'>            @Html.Sitecore().Placeholder("collapsiblecontent")
-</span><span class='line'>        &lt;/div>
-</span><span class='line'>    &lt;/div>
-</span><span class='line'>&lt;/div>
-</span><span class='line'>
-</span><span class='line'>@if (Sitecore.Context.PageMode.IsPreview)
-</span><span class='line'>{
-</span><span class='line'>    &lt;script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js">&lt;/script>
-</span><span class='line'>}
-</span><span class='line'>
-</span><span class='line'>&lt;script>
-</span><span class='line'>    var $jq2 = jQuery.noConflict();
-</span><span class='line'>    $jq2(function() {
-</span><span class='line'>        if (IsPageEditorEditing()) {
-</span><span class='line'>            $jq2('[data-toggle=collapse-next]').next().collapse('show');
-</span><span class='line'>        } else {
-</span><span class='line'>            $jq2('[data-toggle=collapse-next]').next().removeClass('in');
-</span><span class='line'>            $jq2('[data-toggle=collapse-next]').on('click', function() {
-</span><span class='line'>                $jq2(this).next().collapse('toggle');
-</span><span class='line'>            });
-</span><span class='line'>        }
-</span><span class='line'>    });
-</span><span class='line'>&lt;/script></span></code></pre></td></tr></table></div></figure>
-
-
-<ol>
-<li>LINE 17: To combat this &ldquo;re-defining&rdquo; of JQuery version, we first re-include our version of JQuery if we&rsquo;re in Preview Mode.</li>
-<li>LINE 23: We add our code using a re-scoped variable for the global &ldquo;jQuery&rdquo; object.</li>
-<li>LINE 49: In active &ldquo;editing&rdquo; mode, we force all accordions to stay expanded, otherwise they function normally.</li>
-</ol>
-
-
-<p>Although it feels dirty re-including jquery like this, if you really need to be using a different version of JQuery other than what Sitecore includes, this is (at least one) workable way to accomplish that.</p>
-</div>
+  <div class="entry-content"></div>
   
+  
+    <footer>
+      <a rel="full-article" href="/blog/2014/11/12/resolving-jquery-conflicts-in-page-editor/">Read on &rarr;</a>
+    </footer>
   
 
 
@@ -365,43 +196,12 @@ Length of field content does not match the content-length attribute. Field name:
   </header>
 
 
-  <div class="entry-content"><p>Ever since we first installed Sitecore 7.2 rev. 140228 (first release), we have noticed an odd visual bug in Page Editor. We have since uninstall/reinstalled to be at the latest release: 7.2 rev. 140526. However, we still see the issue. There appears to be a small rectangular &ldquo;knock-out&rdquo; overlaying the bottom edge of the &ldquo;Add to here&rdquo; button. I was able to track it down to the &ldquo;webedit.css&rdquo; file in the root /Website folder where Sitecore is installed.</p>
-
-<p><img src="/images/add-here-bug.png" title="[100%] [auto] [Page Editor Bug [Page Editor Bug]]" ></p>
-
-<p>In the webedit.css file, line 604, I changed &ldquo;height: 11px;&rdquo; to &ldquo;height: 24px;&rdquo; and that fixed the issue.</p>
-
-<p><img src="/images/add-here-bug-fixed.png" title="[100%] [auto] [Page Editor Bug Fix [Page Editor Bug Fix]]" ></p>
-
-<h3>UPDATE (11/6/14)</h3>
-
-<p>I contacted Sitecore support about this bug, and they weren&rsquo;t able to reproduce the issue with a clean install of 7.2. I thought that was kind of odd, since I have also noticed the bug during a demo of Sitecore 8 at the Milwaukee Sitecore Meetup group. The presenter was demoing the Experience Editor (previously Page Editor), and lo and behold, there it was!</p>
-
-<p>After sending more information to Sitecore support, it turns out that the issue was/is caused by using &ldquo;border-box&rdquo; instead of &ldquo;content-box&rdquo; on some of their UI elements. We are using Bootstrap, which via its styles, was applying &ldquo;content-box&rdquo; to the element with the &ldquo;.scInsertionHandleCenter&rdquo; class.</p>
-
-<p>The two recommended solution(s) from Sitecore are:</p>
-
-<ol>
-<li>Remove box-sizing: border-box for * or div from site.min.css if possible.</li>
-<li>Add the following style in your site&rsquo;s design CSS:</li>
-</ol>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>.scInsertionHandleCenter 
-</span><span class='line'>{
-</span><span class='line'>  box-sizing: content-box !important;
-</span><span class='line'>  -webkit-box-sizing: content-box !important; 
-</span><span class='line'>  -moz-box-sizing: content-box !important; 
-</span><span class='line'> }</span></code></pre></td></tr></table></div></figure>
-
-</div>
+  <div class="entry-content"></div>
   
+  
+    <footer>
+      <a rel="full-article" href="/blog/2014/11/05/sitecore-fix-for-partially-cut-off-add-to-here-button-in-page-editor/">Read on &rarr;</a>
+    </footer>
   
 
 
@@ -428,15 +228,12 @@ Length of field content does not match the content-length attribute. Field name:
   </header>
 
 
-  <div class="entry-content"><p>On many occasions over the last nine years I have found myself facing all flavors of weird browser quirks, software quirks, and many other head-bashing frustrations. Had I had the forethought to document all the solutions to my problems as they occurred, I might already have helped many others outside my immediate dev team avoid the same frustrations I/we had.</p>
-
-<p>My hope for this blog is that I do just that - share my frustrations, learnings, and solutions to all sorts of problems I face on a daily basis, with practical, working examples that you can actually use to solve your problems.</p>
-
-<p>Per my experience and interests, I&rsquo;d categorize myself as a hybrid (Front-End / Back-End) developer. I have worked at a number of digital marketing agencies over the years, working with a wide variety of tools, and have gained some training/certifications along the way too (both a Kentico and Sitecore certified developer). My latest escapades bring me to C#.NET MVC (w/ Razor, of course!) and Sitecore CMS. Many of my posts will focus on Sitecore development, but I plan to branch off from time to time to venture into other topics as well.</p>
-
-<p>I hope you find some useful nuggets in my blog. Happy coding!</p>
-</div>
+  <div class="entry-content"></div>
   
+  
+    <footer>
+      <a rel="full-article" href="/blog/2014/11/04/blog-manifesto/">Read on &rarr;</a>
+    </footer>
   
 
 

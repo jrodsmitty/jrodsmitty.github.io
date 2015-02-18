@@ -97,7 +97,10 @@
   </header>
 
 
-<div class="entry-content"><p>In the current project I&rsquo;m working on, we are using Bootstrap&rsquo;s &ldquo;collapse&rdquo; functionality (<a href="http://getbootstrap.com/javascript/#collapse">http://getbootstrap.com/javascript/#collapse</a>) for some of our components. Our requirements dictate that all accordions on the page be in the collapsed state, so in &ldquo;Edit&rdquo; mode of Page Editor, we&rsquo;d like them all expanded for ease of editing. The easiest way to accomplish this is to check for the PageMode, and execute some JQuery code to .collapse(&lsquo;show&rsquo;) all accordions on the page.</p>
+<div class="entry-content"><!-- more -->
+
+
+<p>In the current project I&rsquo;m working on, we are using Bootstrap&rsquo;s &ldquo;collapse&rdquo; functionality (<a href="http://getbootstrap.com/javascript/#collapse">http://getbootstrap.com/javascript/#collapse</a>) for some of our components. Our requirements dictate that all accordions on the page be in the collapsed state, so in &ldquo;Edit&rdquo; mode of Page Editor, we&rsquo;d like them all expanded for ease of editing. The easiest way to accomplish this is to check for the PageMode, and execute some JQuery code to .collapse(&lsquo;show&rsquo;) all accordions on the page.</p>
 
 <p>This seems like a fairly simple task (assuming we know JQuery decently well), but we run into some issues because our page&rsquo;s layout is using JQuery 2.1.1, but Sitecore loads JQuery 1.10.2 when using Page Editor, so we run into a JQuery version conflict, and in our case, all our calls to $(element).on(&lsquo;click&rsquo;, function() {..}) fail, because 1.10.2 doesn&rsquo;t support the .on() method.</p>
 

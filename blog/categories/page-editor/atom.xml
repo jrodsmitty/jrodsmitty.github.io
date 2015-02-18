@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Page Editor | Web Dev Ramblin' Man]]></title>
   <link href="http://jrodsmitty.github.io/blog/categories/page-editor/atom.xml" rel="self"/>
   <link href="http://jrodsmitty.github.io/"/>
-  <updated>2015-02-17T21:19:30-06:00</updated>
+  <updated>2015-02-17T21:24:24-06:00</updated>
   <id>http://jrodsmitty.github.io/</id>
   <author>
     <name><![CDATA[Jarrod Smith]]></name>
@@ -18,7 +18,10 @@
     <link href="http://jrodsmitty.github.io/blog/2014/11/12/resolving-jquery-conflicts-in-page-editor/"/>
     <updated>2014-11-12T19:49:03-06:00</updated>
     <id>http://jrodsmitty.github.io/blog/2014/11/12/resolving-jquery-conflicts-in-page-editor</id>
-    <content type="html"><![CDATA[<p>In the current project I&rsquo;m working on, we are using Bootstrap&rsquo;s &ldquo;collapse&rdquo; functionality (<a href="http://getbootstrap.com/javascript/#collapse">http://getbootstrap.com/javascript/#collapse</a>) for some of our components. Our requirements dictate that all accordions on the page be in the collapsed state, so in &ldquo;Edit&rdquo; mode of Page Editor, we&rsquo;d like them all expanded for ease of editing. The easiest way to accomplish this is to check for the PageMode, and execute some JQuery code to .collapse(&lsquo;show&rsquo;) all accordions on the page.</p>
+    <content type="html"><![CDATA[<!-- more -->
+
+
+<p>In the current project I&rsquo;m working on, we are using Bootstrap&rsquo;s &ldquo;collapse&rdquo; functionality (<a href="http://getbootstrap.com/javascript/#collapse">http://getbootstrap.com/javascript/#collapse</a>) for some of our components. Our requirements dictate that all accordions on the page be in the collapsed state, so in &ldquo;Edit&rdquo; mode of Page Editor, we&rsquo;d like them all expanded for ease of editing. The easiest way to accomplish this is to check for the PageMode, and execute some JQuery code to .collapse(&lsquo;show&rsquo;) all accordions on the page.</p>
 
 <p>This seems like a fairly simple task (assuming we know JQuery decently well), but we run into some issues because our page&rsquo;s layout is using JQuery 2.1.1, but Sitecore loads JQuery 1.10.2 when using Page Editor, so we run into a JQuery version conflict, and in our case, all our calls to $(element).on(&lsquo;click&rsquo;, function() {..}) fail, because 1.10.2 doesn&rsquo;t support the .on() method.</p>
 
@@ -131,7 +134,10 @@
     <link href="http://jrodsmitty.github.io/blog/2014/11/05/sitecore-fix-for-partially-cut-off-add-to-here-button-in-page-editor/"/>
     <updated>2014-11-05T22:40:39-06:00</updated>
     <id>http://jrodsmitty.github.io/blog/2014/11/05/sitecore-fix-for-partially-cut-off-add-to-here-button-in-page-editor</id>
-    <content type="html"><![CDATA[<p>Ever since we first installed Sitecore 7.2 rev. 140228 (first release), we have noticed an odd visual bug in Page Editor. We have since uninstall/reinstalled to be at the latest release: 7.2 rev. 140526. However, we still see the issue. There appears to be a small rectangular &ldquo;knock-out&rdquo; overlaying the bottom edge of the &ldquo;Add to here&rdquo; button. I was able to track it down to the &ldquo;webedit.css&rdquo; file in the root /Website folder where Sitecore is installed.</p>
+    <content type="html"><![CDATA[<!-- more -->
+
+
+<p>Ever since we first installed Sitecore 7.2 rev. 140228 (first release), we have noticed an odd visual bug in Page Editor. We have since uninstall/reinstalled to be at the latest release: 7.2 rev. 140526. However, we still see the issue. There appears to be a small rectangular &ldquo;knock-out&rdquo; overlaying the bottom edge of the &ldquo;Add to here&rdquo; button. I was able to track it down to the &ldquo;webedit.css&rdquo; file in the root /Website folder where Sitecore is installed.</p>
 
 <p><img src="/images/add-here-bug.png" title="[100%] [auto] [Page Editor Bug [Page Editor Bug]]" ></p>
 
