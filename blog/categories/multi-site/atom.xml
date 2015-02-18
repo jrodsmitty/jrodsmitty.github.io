@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Multi-site | Web Dev Ramblin' Man]]></title>
   <link href="http://jrodsmitty.github.io/blog/categories/multi-site/atom.xml" rel="self"/>
   <link href="http://jrodsmitty.github.io/"/>
-  <updated>2015-02-17T21:50:33-06:00</updated>
+  <updated>2015-02-17T21:53:34-06:00</updated>
   <id>http://jrodsmitty.github.io/</id>
   <author>
     <name><![CDATA[Jarrod Smith]]></name>
@@ -27,7 +27,39 @@
 
 <h2>What about in a multi-site instance?</h2>
 
-<p>When you are running two or more sites concurrently in one Sitecore instance, the recommended approach is to define each site&rsquo;s host header and other information in a <strong>SiteDefinition.config</strong> file (a much better approach then directly editing the Web.config file). This file also specifies the database a site should read from.</p>
+<p>When you are running two or more sites concurrently in one Sitecore instance, the recommended approach is to define each site&rsquo;s host header and other information in a <strong>SiteDefinition.config</strong> file (a much better approach then directly editing the Web.config file). This file also specifies the database a site should read from. Note the <strong>database=&ldquo;master&rdquo;</strong> below:
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;site name="yoursitecoresite" patch:before="site[@name='website']"
+</span><span class='line'>            virtualFolder="/"
+</span><span class='line'>            physicalFolder="/Sites/yoursitecoresite"
+</span><span class='line'>            rootPath="/sitecore/content/yoursitecoresite"
+</span><span class='line'>            startItem="/home"
+</span><span class='line'>            database="master"
+</span><span class='line'>            domain="extranet"
+</span><span class='line'>            allowDebug="true"
+</span><span class='line'>            cacheHtml="true"
+</span><span class='line'>            htmlCacheSize="10MB"
+</span><span class='line'>            enablePreview="true"
+</span><span class='line'>            enableWebEdit="true"
+</span><span class='line'>            enableDebugger="true"
+</span><span class='line'>            disableClientData="false"
+</span><span class='line'>            hostName="local.yoursitecoresite.org"
+</span><span class='line'>            enableFallback="false" /></span></code></pre></td></tr></table></div></figure></p>
 
 <p>It turns out that when working in a multi-site setup in one instance of Sitecore, the SiteDefinition.config file takes precedent, and the LiveMode.config file is completely ignored. So in our project(s), we don&rsquo;t even bother to deploy LiveMode.config to a development environment. It&rsquo;s redundant.</p>
 

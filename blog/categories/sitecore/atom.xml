@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Sitecore | Web Dev Ramblin' Man]]></title>
   <link href="http://jrodsmitty.github.io/blog/categories/sitecore/atom.xml" rel="self"/>
   <link href="http://jrodsmitty.github.io/"/>
-  <updated>2015-02-17T21:50:33-06:00</updated>
+  <updated>2015-02-17T21:53:34-06:00</updated>
   <id>http://jrodsmitty.github.io/</id>
   <author>
     <name><![CDATA[Jarrod Smith]]></name>
@@ -27,7 +27,39 @@
 
 <h2>What about in a multi-site instance?</h2>
 
-<p>When you are running two or more sites concurrently in one Sitecore instance, the recommended approach is to define each site&rsquo;s host header and other information in a <strong>SiteDefinition.config</strong> file (a much better approach then directly editing the Web.config file). This file also specifies the database a site should read from.</p>
+<p>When you are running two or more sites concurrently in one Sitecore instance, the recommended approach is to define each site&rsquo;s host header and other information in a <strong>SiteDefinition.config</strong> file (a much better approach then directly editing the Web.config file). This file also specifies the database a site should read from. Note the <strong>database=&ldquo;master&rdquo;</strong> below:
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;site name="yoursitecoresite" patch:before="site[@name='website']"
+</span><span class='line'>            virtualFolder="/"
+</span><span class='line'>            physicalFolder="/Sites/yoursitecoresite"
+</span><span class='line'>            rootPath="/sitecore/content/yoursitecoresite"
+</span><span class='line'>            startItem="/home"
+</span><span class='line'>            database="master"
+</span><span class='line'>            domain="extranet"
+</span><span class='line'>            allowDebug="true"
+</span><span class='line'>            cacheHtml="true"
+</span><span class='line'>            htmlCacheSize="10MB"
+</span><span class='line'>            enablePreview="true"
+</span><span class='line'>            enableWebEdit="true"
+</span><span class='line'>            enableDebugger="true"
+</span><span class='line'>            disableClientData="false"
+</span><span class='line'>            hostName="local.yoursitecoresite.org"
+</span><span class='line'>            enableFallback="false" /></span></code></pre></td></tr></table></div></figure></p>
 
 <p>It turns out that when working in a multi-site setup in one instance of Sitecore, the SiteDefinition.config file takes precedent, and the LiveMode.config file is completely ignored. So in our project(s), we don&rsquo;t even bother to deploy LiveMode.config to a development environment. It&rsquo;s redundant.</p>
 
@@ -97,7 +129,7 @@ Length of field content does not match the content-length attribute. Field name:
 <li><a href="https://theagilecoder.wordpress.com/2013/03/02/tds-so-youre-deploying-sitecore-to-a-new-environment/">https://theagilecoder.wordpress.com/2013/03/02/tds-so-youre-deploying-sitecore-to-a-new-environment/</a></li>
 <li><a href="http://seankearney.com/post/Using-Team-Development-for-Sitecore-with-GitHub">http://seankearney.com/post/Using-Team-Development-for-Sitecore-with-GitHub</a></li>
 <li><a href="https://confluence.jetbrains.com/display/TCD8/Git+%28JetBrains%29">https://confluence.jetbrains.com/display/TCD8/Git+%28JetBrains%29</a></li>
-<li>The great support team at Hedgehog Development (<a href="&#x6d;&#x61;&#105;&#108;&#x74;&#111;&#x3a;&#x73;&#117;&#x70;&#112;&#111;&#114;&#x74;&#64;&#x68;&#x68;&#x6f;&#x67;&#x64;&#x65;&#118;&#x2e;&#99;&#x6f;&#x6d;">&#x73;&#117;&#x70;&#112;&#111;&#114;&#x74;&#x40;&#104;&#x68;&#111;&#103;&#x64;&#101;&#118;&#x2e;&#x63;&#111;&#109;</a>)</li>
+<li>The great support team at Hedgehog Development (<a href="&#109;&#x61;&#x69;&#108;&#x74;&#111;&#58;&#x73;&#117;&#x70;&#x70;&#x6f;&#x72;&#116;&#x40;&#x68;&#104;&#x6f;&#x67;&#100;&#x65;&#118;&#x2e;&#99;&#x6f;&#109;">&#115;&#x75;&#x70;&#x70;&#x6f;&#x72;&#116;&#x40;&#x68;&#104;&#111;&#x67;&#100;&#x65;&#x76;&#46;&#99;&#111;&#109;</a>)</li>
 </ul>
 
 ]]></content>
