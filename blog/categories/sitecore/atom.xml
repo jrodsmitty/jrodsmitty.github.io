@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Sitecore | Web Dev Ramblin' Man]]></title>
   <link href="http://jrodsmitty.github.io/blog/categories/sitecore/atom.xml" rel="self"/>
   <link href="http://jrodsmitty.github.io/"/>
-  <updated>2015-02-17T21:24:24-06:00</updated>
+  <updated>2015-02-17T21:50:33-06:00</updated>
   <id>http://jrodsmitty.github.io/</id>
   <author>
     <name><![CDATA[Jarrod Smith]]></name>
@@ -12,6 +12,30 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[LiveMode.config and Multi-Site Sitecore Development]]></title>
+    <link href="http://jrodsmitty.github.io/blog/2015/02/17/livemode-dot-config-and-multi-site-sitecore-development/"/>
+    <updated>2015-02-17T21:26:21-06:00</updated>
+    <id>http://jrodsmitty.github.io/blog/2015/02/17/livemode-dot-config-and-multi-site-sitecore-development</id>
+    <content type="html"><![CDATA[<!-- more -->
+
+
+<h2>But MOM, I don&rsquo;t WANNA click Publish!</h2>
+
+<p>If you don&rsquo;t want to bother publishing your local Sitecore site every time you make a change (especially when developing), there&rsquo;s a nifty file named <strong>LiveMode.config.example</strong>, located in <strong>C:\inetpub\wwwroot\yoursitecoresite\Website\App_Config\Include\ </strong>. It comes with the sitecore install, and for a normal single-site Sitecore instance, simply removing the &ldquo;.example&rdquo; from the filename will let you view your site using the <strong>master</strong> database instead of the live <strong>web</strong> database. This has many advantages as a developer, namely, time-savings. Every keystroke and mouseclick counts!</p>
+
+<h2>What about in a multi-site instance?</h2>
+
+<p>When you are running two or more sites concurrently in one Sitecore instance, the recommended approach is to define each site&rsquo;s host header and other information in a <strong>SiteDefinition.config</strong> file (a much better approach then directly editing the Web.config file). This file also specifies the database a site should read from.</p>
+
+<p>It turns out that when working in a multi-site setup in one instance of Sitecore, the SiteDefinition.config file takes precedent, and the LiveMode.config file is completely ignored. So in our project(s), we don&rsquo;t even bother to deploy LiveMode.config to a development environment. It&rsquo;s redundant.</p>
+
+<h2>Cool! So does this mean I can just use Live Mode in production, and skip having to hit publish?</h2>
+
+<p>I <strong>DO NOT</strong> recommend running your live site off of the master database! You should isolate your live content from the &ldquo;in-progress&rdquo; editing content to avoid major workflow headaches, if it&rsquo;s more than just you making changes. Plus, using master/web is the recommended approach from Sitecore, anyhow.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Team Development for Sitecore (TDS), GitHub, TeamCity, and Line Endings, Oh My!]]></title>
@@ -73,7 +97,7 @@ Length of field content does not match the content-length attribute. Field name:
 <li><a href="https://theagilecoder.wordpress.com/2013/03/02/tds-so-youre-deploying-sitecore-to-a-new-environment/">https://theagilecoder.wordpress.com/2013/03/02/tds-so-youre-deploying-sitecore-to-a-new-environment/</a></li>
 <li><a href="http://seankearney.com/post/Using-Team-Development-for-Sitecore-with-GitHub">http://seankearney.com/post/Using-Team-Development-for-Sitecore-with-GitHub</a></li>
 <li><a href="https://confluence.jetbrains.com/display/TCD8/Git+%28JetBrains%29">https://confluence.jetbrains.com/display/TCD8/Git+%28JetBrains%29</a></li>
-<li>The great support team at Hedgehog Development (<a href="&#109;&#97;&#x69;&#x6c;&#x74;&#111;&#x3a;&#115;&#x75;&#112;&#x70;&#x6f;&#114;&#116;&#x40;&#104;&#104;&#x6f;&#103;&#x64;&#101;&#x76;&#46;&#x63;&#111;&#109;">&#x73;&#x75;&#112;&#x70;&#111;&#x72;&#116;&#64;&#x68;&#x68;&#x6f;&#103;&#x64;&#x65;&#118;&#x2e;&#99;&#111;&#109;</a>)</li>
+<li>The great support team at Hedgehog Development (<a href="&#x6d;&#x61;&#105;&#108;&#x74;&#111;&#x3a;&#x73;&#117;&#x70;&#112;&#111;&#114;&#x74;&#64;&#x68;&#x68;&#x6f;&#x67;&#x64;&#x65;&#118;&#x2e;&#99;&#x6f;&#x6d;">&#x73;&#117;&#x70;&#112;&#111;&#114;&#x74;&#x40;&#104;&#x68;&#111;&#103;&#x64;&#101;&#118;&#x2e;&#x63;&#111;&#109;</a>)</li>
 </ul>
 
 ]]></content>

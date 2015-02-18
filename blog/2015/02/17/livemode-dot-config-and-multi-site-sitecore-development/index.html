@@ -5,12 +5,12 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Category: Community - Web Dev Ramblin&#8217; Man</title>
+  <title>LiveMode.config and Multi-Site Sitecore Development - Web Dev Ramblin&#8217; Man</title>
   <meta name="author" content="Jarrod Smith">
 
   
-  <meta name="description" content="Category: community">
-  
+  <meta name="description" content="But MOM, I don&rsquo;t WANNA click Publish! If you don&rsquo;t want to bother publishing your local Sitecore site every time you make a change ( &hellip;">
+  <meta name="keywords" content="Sitecore, Live Mode, Multi-Site, Multisite">
 
   <!-- http://t.co/dKP3o1e -->
   <meta name="HandheldFriendly" content="True">
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://jrodsmitty.github.io/blog/categories/community">
+  <link rel="canonical" href="http://jrodsmitty.github.io/blog/2015/02/17/livemode-dot-config-and-multi-site-sitecore-development">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="Web Dev Ramblin' Man" type="application/atom+xml">
@@ -77,35 +77,87 @@
   <div id="main">
     <div id="content">
       <div>
-<article role="article">
+<article class="hentry" role="article">
   
   <header>
-    <h1 class="entry-title">Category: Community</h1>
+    
+      <h1 class="entry-title">LiveMode.config and Multi-Site Sitecore Development</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-02-17T21:26:21-06:00'><span class='date'><span class='date-month'>Feb</span> <span class='date-day'>17</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>9:26 pm</span></time>
+        
+      </p>
     
   </header>
-  
-  <div id="blog-archives" class="category">
 
 
-
-  
-  <h2>2014</h2>
-
-<article>
-  
-<h1><a href="/blog/2014/12/23/submitting-a-module-to-the-sitecore-marketplace/">Submitting a Module to the Sitecore Marketplace</a></h1>
-<time datetime="2014-12-23T20:33:56-06:00" pubdate><span class='month'>Dec</span> <span class='day'>23</span> <span class='year'>2014</span></time>
-
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/categories/community/'>community</a>, <a class='category' href='/blog/categories/contributions/'>contributions</a>, <a class='category' href='/blog/categories/facebook/'>facebook</a>, <a class='category' href='/blog/categories/marketplace/'>marketplace</a>, <a class='category' href='/blog/categories/sitecore/'>sitecore</a>, <a class='category' href='/blog/categories/sitecore-marketplace/'>sitecore marketplace</a></span>
-</footer>
+<div class="entry-content"><!-- more -->
 
 
-</article>
+<h2>But MOM, I don&rsquo;t WANNA click Publish!</h2>
 
+<p>If you don&rsquo;t want to bother publishing your local Sitecore site every time you make a change (especially when developing), there&rsquo;s a nifty file named <strong>LiveMode.config.example</strong>, located in <strong>C:\inetpub\wwwroot\yoursitecoresite\Website\App_Config\Include\ </strong>. It comes with the sitecore install, and for a normal single-site Sitecore instance, simply removing the &ldquo;.example&rdquo; from the filename will let you view your site using the <strong>master</strong> database instead of the live <strong>web</strong> database. This has many advantages as a developer, namely, time-savings. Every keystroke and mouseclick counts!</p>
+
+<h2>What about in a multi-site instance?</h2>
+
+<p>When you are running two or more sites concurrently in one Sitecore instance, the recommended approach is to define each site&rsquo;s host header and other information in a <strong>SiteDefinition.config</strong> file (a much better approach then directly editing the Web.config file). This file also specifies the database a site should read from.</p>
+
+<p>It turns out that when working in a multi-site setup in one instance of Sitecore, the SiteDefinition.config file takes precedent, and the LiveMode.config file is completely ignored. So in our project(s), we don&rsquo;t even bother to deploy LiveMode.config to a development environment. It&rsquo;s redundant.</p>
+
+<h2>Cool! So does this mean I can just use Live Mode in production, and skip having to hit publish?</h2>
+
+<p>I <strong>DO NOT</strong> recommend running your live site off of the master database! You should isolate your live content from the &ldquo;in-progress&rdquo; editing content to avoid major workflow headaches, if it&rsquo;s more than just you making changes. Plus, using master/web is the recommended approach from Sitecore, anyhow.</p>
 </div>
 
+
+  <footer>
+    <p class="meta">
+      
   
+
+<span class="byline author vcard">Posted by <span class="fn">Jarrod Smith</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-02-17T21:26:21-06:00'><span class='date'><span class='date-month'>Feb</span> <span class='date-day'>17</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>9:26 pm</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/development/'>development</a>, <a class='category' href='/blog/categories/live-mode/'>live mode</a>, <a class='category' href='/blog/categories/multi-site/'>multi-site</a>, <a class='category' href='/blog/categories/sitecore/'>sitecore</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://jrodsmitty.github.io/blog/2015/02/17/livemode-dot-config-and-multi-site-sitecore-development/" data-via="jrodsmitty" data-counturl="http://jrodsmitty.github.io/blog/2015/02/17/livemode-dot-config-and-multi-site-sitecore-development/" >Tweet</a>
+  
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/01/20/line-endings-and-tds/" title="Previous Post: Team Development for Sitecore (TDS), GitHub, TeamCity, and Line Endings, Oh My!">&laquo; Team Development for Sitecore (TDS), GitHub, TeamCity, and Line Endings, Oh My!</a>
+      
+      
+    </p>
+  </footer>
 </article>
 
 </div>
