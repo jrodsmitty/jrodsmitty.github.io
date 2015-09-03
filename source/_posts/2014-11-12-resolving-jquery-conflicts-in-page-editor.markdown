@@ -7,7 +7,7 @@ categories: [Sitecore, JQuery, Page Editor]
 description: Resolving JQuery Conflicts in Page Editor
 keywords: Sitecore, JQuery, Page Editor
 ---
-
+<!-- more -->
 In the current project I'm working on, we are using Bootstrap's "collapse" functionality (http://getbootstrap.com/javascript/#collapse) for some of our components. Our requirements dictate that all accordions on the page be in the collapsed state, so in "Edit" mode of Page Editor, we'd like them all expanded for ease of editing. The easiest way to accomplish this is to check for the PageMode, and execute some JQuery code to .collapse('show') all accordions on the page.
 
 This seems like a fairly simple task (assuming we know JQuery decently well), but we run into some issues because our page's layout is using JQuery 2.1.1, but Sitecore loads JQuery 1.10.2 when using Page Editor, so we run into a JQuery version conflict, and in our case, all our calls to $(element).on('click', function() {..}) fail, because 1.10.2 doesn't support the .on() method.
