@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Tds | Web Dev Ramblin' Man]]></title>
+  <link href="http://jrodsmitty.github.io/blog/categories/tds/atom.xml" rel="self"/>
+  <link href="http://jrodsmitty.github.io/"/>
+  <updated>2015-09-03T23:00:56-05:00</updated>
+  <id>http://jrodsmitty.github.io/</id>
+  <author>
+    <name><![CDATA[Jarrod Smith]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Team Development for Sitecore (TDS), GitHub, TeamCity, and Line Endings, Oh My!]]></title>
+    <link href="http://jrodsmitty.github.io/blog/2015/01/20/line-endings-and-tds/"/>
+    <updated>2015-01-20T22:57:57-06:00</updated>
+    <id>http://jrodsmitty.github.io/blog/2015/01/20/line-endings-and-tds</id>
+    <content type="html"><![CDATA[<!-- more -->
+
+
+<blockquote><p>Length of field content does not match the content-length attribute</p></blockquote>
+
+<h2>Update - 2/17/2015:</h2>
+
+<p>So&hellip; although we had thought we solved our LF/CRLF line ending problems, they kept appearing again and again when we least expected them. We finally figured out the root cause of this, and put it to rest. The real issue that started this whole ordeal was that our local <strong>.gitconfig</strong> file contained the line &ldquo;autocrlf = true&rdquo;. Whenever we would run a <strong>git add</strong> command, git was replacing all \n (LF - line feed) endings with \r\n (CRLF - carriage return, line feed). TDS serializes everything using LF, and it stores content-length values in the .item files based on that. So when git changes line endings to CRLF, it is effectively adding more characters to a field&rsquo;s value in the .item file, but does not increment the field&rsquo;s content-length value to match. That mis-match of field values to their content-length is what causes the error.</p>
+
+<p>To fix this, we did the following:</p>
+
+<p>1) Updated our .gitconfig files [core] section to have the values &ldquo;autocrlf = false&rdquo; and, just to be explicitly clear, we added &ldquo;eol = lf&rdquo; as well.
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>[core]
+</span><span class='line'>   autocrlf = false
+</span><span class='line'>   eol = lf</span></code></pre></td></tr></table></div></figure>
+2) Removed all tracked items from our TDS projects</p>
+
+<p>3) Re-added all TDS items, so they got re-serialized with just LF.</p>
+
+<p><em>NOTE:</em>  If you later want git to use auto CRLF replacement on other projects, you would then need to add a <strong>.gitattributes</strong> file at the root of your other project(s) directory, and define &ldquo;eol = crlf&rdquo; instead. See <a href="http://git-scm.com/book/en/v2/Customizing-Git-Git-Attributes">http://git-scm.com/book/en/v2/Customizing-Git-Git-Attributes</a> for more details on .gitattributes files.</p>
+
+<hr />
+
+<h3>What you see below is OLD and OUT-OF-DATE, but it&rsquo;s here if you want to read the original saga</h3>
+
+<hr />
+
+<p>Our development team has been running into a lot of situations lately where TDS items in our project are showing up as changed, when nobody had changed anything. The message we were seeing was something like: &ldquo;Failed to load version 1 for language en
+Length of field content does not match the content-length attribute. Field name: Value, field id: {C8B4641D-C20D-4424-84B3-5ED37AF9CD33}&rdquo;</p>
+
+<h2>First Try (fix content-length in *.item files)</h2>
+
+<p>After some Googling, we found an article that mentioned the error we were seeing (<a href="https://theagilecoder.wordpress.com/2013/03/02/tds-so-youre-deploying-sitecore-to-a-new-environment/">https://theagilecoder.wordpress.com/2013/03/02/tds-so-youre-deploying-sitecore-to-a-new-environment/</a>) and we were able to fix the issues manually as they came up, by editing the *.item files and updating the content-length value(s). We did this for awhile, but the issue kept coming back, and we were all getting pretty frustrated.</p>
+
+<h2>Git &lsquo;er Done! (make .gitattributes smarter)</h2>
+
+<p>After reaching out to Hedgehog Development, who makes the TDS product, we confirmed (as we had suspected) that the issue had to do with line endings getting changed at some point in the process. We were directed to a really helpful article by Sean Kearney (<a href="http://seankearney.com/post/Using-Team-Development-for-Sitecore-with-GitHub">http://seankearney.com/post/Using-Team-Development-for-Sitecore-with-GitHub</a>) which tells you to add a line to your .gitattributes file that says &ldquo;*.item -text&rdquo; . So all will we swell then, right? Well, if you have any previous files that still contain mixed LF and CRLF (which are what cause that error), you&rsquo;ll want to normalize those to all use CRLF only (if on Windows, in our case). Sublime Text has a nice plugin called &ldquo;Line Endings Unify&rdquo; that will let you batch update files to normalize the line endings.</p>
+
+<h2>Final Piece (TeamCity plugin setting)</h2>
+
+<p>So updating our .gitattributes file seemed to fix our issues. That is, until we added TeamCity into the mix. We didn&rsquo;t have problems locally anymore, but when TeamCity was checking out the latest files from our GitHub repo, it was failing to build the TDS package. It was failing with the same error as before. After more head bashing and another email or two to Hedgehog Development, we learned that we needed to enable the &ldquo;convert line endings to CRLF&rdquo; in the Git VCS plugin settings for TeamCity (<a href="https://confluence.jetbrains.com/display/TCD8/Git+%28JetBrains%29">https://confluence.jetbrains.com/display/TCD8/Git+%28JetBrains%29</a>).</p>
+
+<h2>The Aftermath</h2>
+
+<p>It&rsquo;s only been a week since we implemented this fix, but so far we haven&rsquo;t seen this error come up again. We have a bunch of developers working constantly during the day on project features - branches are getting pull-requested, merged, built, deployed, and so far, no issues with line endings. We can only hope the worst is behind us.</p>
+
+<h2>Sources</h2>
+
+<ul>
+<li><a href="https://theagilecoder.wordpress.com/2013/03/02/tds-so-youre-deploying-sitecore-to-a-new-environment/">https://theagilecoder.wordpress.com/2013/03/02/tds-so-youre-deploying-sitecore-to-a-new-environment/</a></li>
+<li><a href="http://seankearney.com/post/Using-Team-Development-for-Sitecore-with-GitHub">http://seankearney.com/post/Using-Team-Development-for-Sitecore-with-GitHub</a></li>
+<li><a href="https://confluence.jetbrains.com/display/TCD8/Git+%28JetBrains%29">https://confluence.jetbrains.com/display/TCD8/Git+%28JetBrains%29</a></li>
+<li>The great support team at Hedgehog Development (<a href="&#x6d;&#x61;&#x69;&#x6c;&#116;&#111;&#58;&#x73;&#117;&#112;&#x70;&#x6f;&#114;&#116;&#x40;&#104;&#104;&#x6f;&#103;&#100;&#101;&#x76;&#x2e;&#x63;&#111;&#109;">&#x73;&#x75;&#112;&#x70;&#111;&#114;&#x74;&#x40;&#x68;&#x68;&#x6f;&#103;&#x64;&#x65;&#x76;&#x2e;&#99;&#x6f;&#x6d;</a>)</li>
+</ul>
+
+]]></content>
+  </entry>
+  
+</feed>

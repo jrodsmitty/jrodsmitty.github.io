@@ -1,0 +1,358 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Resolving JQuery Conflicts in Page Editor - Web Dev Ramblin&#8217; Man</title>
+  <meta name="author" content="Jarrod Smith">
+
+  
+  <meta name="description" content="Resolving JQuery Conflicts in Page Editor">
+  <meta name="keywords" content="Sitecore, JQuery, Page Editor">
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://jrodsmitty.github.io/blog/2014/11/12/resolving-jquery-conflicts-in-page-editor">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Web Dev Ramblin' Man" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-56527637-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <img src="/images/logo_icon.gif" alt="" style="display:block; float:left; padding-right:15px; padding-bottom:5px;" />
+  <h1 style="padding-top:5px;"><a href="/">Web Dev Ramblin&#8217; Man</a></h1>
+  
+    <h2>A Sitecore Blog (and probably other web stuff too)</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:jrodsmitty.github.io" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Resolving JQuery Conflicts in Page Editor</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2014-11-12T19:49:03-06:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>12</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>7:49 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!-- more -->
+
+
+<p>In the current project I&rsquo;m working on, we are using Bootstrap&rsquo;s &ldquo;collapse&rdquo; functionality (<a href="http://getbootstrap.com/javascript/#collapse">http://getbootstrap.com/javascript/#collapse</a>) for some of our components. Our requirements dictate that all accordions on the page be in the collapsed state, so in &ldquo;Edit&rdquo; mode of Page Editor, we&rsquo;d like them all expanded for ease of editing. The easiest way to accomplish this is to check for the PageMode, and execute some JQuery code to .collapse(&lsquo;show&rsquo;) all accordions on the page.</p>
+
+<p>This seems like a fairly simple task (assuming we know JQuery decently well), but we run into some issues because our page&rsquo;s layout is using JQuery 2.1.1, but Sitecore loads JQuery 1.10.2 when using Page Editor, so we run into a JQuery version conflict, and in our case, all our calls to $(element).on(&lsquo;click&rsquo;, function() {..}) fail, because 1.10.2 doesn&rsquo;t support the .on() method.</p>
+
+<h2>There are a couple ways to deal with this:</h2>
+
+<ol>
+<li>Give up using a different version of JQuery, and just include and use version 1.10.2 throughout the site.</li>
+<li>Utilize JQuery.noConflict() and some other tricks to get things to work with version 2.1.1.</li>
+</ol>
+
+
+<p>We really wanted to use version 2.x of JQuery since our project requirements let us ignore (for the most part) older browsers, and all the code-bloat in JQuery 1.x that handles older browser quirks for browsers like Internet Explorer has been removed in v2. So for our situation, we chose to go with option 2.</p>
+
+<p>Page Editor loads its version of JQuery after we do during the page rendering (ours is within the head tag), so by the time we call our JQuery code, the global &ldquo;JQuery&rdquo; object now represents the older 1.10.2 version instead of 2.1.1, so our code throws the error &ldquo;Uncaught TypeError: undefined is not a function&rdquo;</p>
+
+<h3>Here was our solution:</h3>
+
+<p><em>NOTE: We&rsquo;re using an MVC view for our component</em></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>@using Sitecore.Mvc;
+</span><span class='line'>
+</span><span class='line'>&lt;div class="panel panel-default">
+</span><span class='line'>    &lt;div class="panel-heading collapsed" data-toggle="collapse-next" aria-expanded="false">
+</span><span class='line'>        &lt;h4 class="panel-title">
+</span><span class='line'>            @Html.Sitecore().Field("Heading")
+</span><span class='line'>        &lt;/h4>
+</span><span class='line'>    &lt;/div>
+</span><span class='line'>
+</span><span class='line'>    &lt;div class="panel-collapse collapse">
+</span><span class='line'>        &lt;div class="panel-body">
+</span><span class='line'>            @Html.Sitecore().Placeholder("collapsiblecontent")
+</span><span class='line'>        &lt;/div>
+</span><span class='line'>    &lt;/div>
+</span><span class='line'>&lt;/div>
+</span><span class='line'>
+</span><span class='line'>@if (Sitecore.Context.PageMode.IsPreview)
+</span><span class='line'>{
+</span><span class='line'>    &lt;script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js">&lt;/script>
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>&lt;script>
+</span><span class='line'>    var $jq2 = jQuery.noConflict();
+</span><span class='line'>    $jq2(function() {
+</span><span class='line'>        if (IsPageEditorEditing()) {
+</span><span class='line'>            $jq2('[data-toggle=collapse-next]').next().collapse('show');
+</span><span class='line'>        } else {
+</span><span class='line'>            $jq2('[data-toggle=collapse-next]').next().removeClass('in');
+</span><span class='line'>            $jq2('[data-toggle=collapse-next]').on('click', function() {
+</span><span class='line'>                $jq2(this).next().collapse('toggle');
+</span><span class='line'>            });
+</span><span class='line'>        }
+</span><span class='line'>    });
+</span><span class='line'>&lt;/script></span></code></pre></td></tr></table></div></figure>
+
+
+<ol>
+<li>LINE 17: To combat this &ldquo;re-defining&rdquo; of JQuery version, we first re-include our version of JQuery if we&rsquo;re in Preview Mode.</li>
+<li>LINE 23: We add our code using a re-scoped variable for the global &ldquo;jQuery&rdquo; object.</li>
+<li>LINE 49: In active &ldquo;editing&rdquo; mode, we force all accordions to stay expanded, otherwise they function normally.</li>
+</ol>
+
+
+<p>Although it feels dirty re-including jquery like this, if you really need to be using a different version of JQuery other than what Sitecore includes, this is (at least one) workable way to accomplish that.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Jarrod Smith</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2014-11-12T19:49:03-06:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>12</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>7:49 pm</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/jquery/'>jquery</a>, <a class='category' href='/blog/categories/page-editor/'>page editor</a>, <a class='category' href='/blog/categories/sitecore/'>sitecore</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://jrodsmitty.github.io/blog/2014/11/12/resolving-jquery-conflicts-in-page-editor/" data-via="jrodsmitty" data-counturl="http://jrodsmitty.github.io/blog/2014/11/12/resolving-jquery-conflicts-in-page-editor/" >Tweet</a>
+  
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2014/11/05/sitecore-fix-for-partially-cut-off-add-to-here-button-in-page-editor/" title="Previous Post: Sitecore Fix: Partially-cut-off 'Add to here' button in Page Editor">&laquo; Sitecore Fix: Partially-cut-off &#8216;Add to here&#8217; button in Page Editor</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2014/12/23/submitting-a-module-to-the-sitecore-marketplace/" title="Next Post: Submitting a Module to the Sitecore Marketplace">Submitting a Module to the Sitecore Marketplace &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2015/09/03/sitecore-7-dot-5-analytics-not-working/">Sitecore 7.5 Analytics Not Working</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/09/02/sitecore-experienced-podcast-episode-7/">Sitecore Experienced! Podcast Episode 7</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/02/17/livemode-dot-config-and-multi-site-sitecore-development/">LiveMode.config and Multi-Site Sitecore Development</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/01/20/line-endings-and-tds/">Team Development for Sitecore (TDS), GitHub, TeamCity, and Line Endings, Oh My!</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/12/23/submitting-a-module-to-the-sitecore-marketplace/">Submitting a Module to the Sitecore Marketplace</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating&#8230;</li>
+  </ul>
+  
+  <a href="https://github.com/jrodsmitty">@jrodsmitty</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'jrodsmitty',
+            count: 0,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2015 - Jarrod Smith -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id; js.async = true;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

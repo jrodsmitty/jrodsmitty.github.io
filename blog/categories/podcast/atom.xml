@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Podcast | Web Dev Ramblin' Man]]></title>
+  <link href="http://jrodsmitty.github.io/blog/categories/podcast/atom.xml" rel="self"/>
+  <link href="http://jrodsmitty.github.io/"/>
+  <updated>2015-09-03T23:00:56-05:00</updated>
+  <id>http://jrodsmitty.github.io/</id>
+  <author>
+    <name><![CDATA[Jarrod Smith]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Sitecore Experienced! Podcast Episode 7]]></title>
+    <link href="http://jrodsmitty.github.io/blog/2015/09/02/sitecore-experienced-podcast-episode-7/"/>
+    <updated>2015-09-02T21:11:16-05:00</updated>
+    <id>http://jrodsmitty.github.io/blog/2015/09/02/sitecore-experienced-podcast-episode-7</id>
+    <content type="html"><![CDATA[<!-- more -->
+
+
+<p>I have the pleasure of being a guest on Episode 7 of the <a href="http://www.sitecoreexperienced.com">Sitecore Experienced! podcast</a>. In this episode, I discuss our team&rsquo;s Sitecore workflow from coding all the way out into Azure Paas.</p>
+
+<p>Not many companies choose to use Azure PaaS, but instead choose IaaS because it&rsquo;s easier to manage. However, once you get things working on PaaS, over time you will reap the benefits of an automatically-updated/patched hosting environment.</p>
+]]></content>
+  </entry>
+  
+</feed>

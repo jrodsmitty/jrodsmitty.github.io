@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Sitecore | Web Dev Ramblin' Man]]></title>
+  <link href="http://jrodsmitty.github.io/blog/categories/sitecore/atom.xml" rel="self"/>
+  <link href="http://jrodsmitty.github.io/"/>
+  <updated>2015-09-03T23:00:56-05:00</updated>
+  <id>http://jrodsmitty.github.io/</id>
+  <author>
+    <name><![CDATA[Jarrod Smith]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Sitecore 7.5 Analytics Not Working]]></title>
+    <link href="http://jrodsmitty.github.io/blog/2015/09/03/sitecore-7-dot-5-analytics-not-working/"/>
+    <updated>2015-09-03T21:47:47-05:00</updated>
+    <id>http://jrodsmitty.github.io/blog/2015/09/03/sitecore-7-dot-5-analytics-not-working</id>
+    <content type="html"><![CDATA[<!-- more -->
+
+
+<blockquote><p>We&rsquo;ve avoided discussing upgrading to Sitecore 8 since we just got done with getting 7.5 up and running, but it looks like we may not have a choice.</p></blockquote>
+
+<p>When we first built out our Sitecore environments a little less than a year ago, we had started on version 7.2. We later upgraded to 7.5 because we were trying to stay ahead of the curve since we had not done any DMS/personalization work yet. We wanted to get our own MongoDB instances (master and mirror) set up (hosted on Unix machines by our team) to be all set to do DMS work when the time came.</p>
+
+<p>We soon realized that we had a problem. Sitecore was seeing all analytics requests coming from our site as if it was a &ldquo;robot.&rdquo; We followed some advice we found in an  article to add the &ldquo;VisitorIdentification()&rdquo; call in our main base layout cshtml view (<a href="http://www.daveleigh.co.uk/sitecore-7-5-mvc-enabling-analytics-xdb/">http://www.daveleigh.co.uk/sitecore-7-5-mvc-enabling-analytics-xdb/</a>). This did not get things working as we would have expected. We disabled the outbound filtering which as I understand it limits what noise can be tracked by mongo, and then we saw things getting tracked. But the minute we re-enabled the outbound filtering, the tracking stopped. Our site was still being seen as a robot.</p>
+
+<p>After months of back and forth with Sitecore support trying to first determine the issue and then see about a fix, we&rsquo;re now at the point where Sitecore is basically telling us we should upgrade to version 8. Even the 7.5 download page of the SDN site has a red-text disclaimer telling people to install version 8 instead for better support. Having talked to a couple MVPs about their upgrade experiences, upgrading to 8 has me a bit nervous. Previously, we opted for a fresh install of 7.5 instead of following the documented upgrade path from 7.2. We just felt it was much cleaner to do so. Only time will tell what we decide to do here, but the fear and intrigue of the unknown is what keeps me in this industry.</p>
+
+<p>Onward!</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Sitecore Experienced! Podcast Episode 7]]></title>
+    <link href="http://jrodsmitty.github.io/blog/2015/09/02/sitecore-experienced-podcast-episode-7/"/>
+    <updated>2015-09-02T21:11:16-05:00</updated>
+    <id>http://jrodsmitty.github.io/blog/2015/09/02/sitecore-experienced-podcast-episode-7</id>
+    <content type="html"><![CDATA[<!-- more -->
+
+
+<p>I have the pleasure of being a guest on Episode 7 of the <a href="http://www.sitecoreexperienced.com">Sitecore Experienced! podcast</a>. In this episode, I discuss our team&rsquo;s Sitecore workflow from coding all the way out into Azure Paas.</p>
+
+<p>Not many companies choose to use Azure PaaS, but instead choose IaaS because it&rsquo;s easier to manage. However, once you get things working on PaaS, over time you will reap the benefits of an automatically-updated/patched hosting environment.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[LiveMode.config and Multi-Site Sitecore Development]]></title>
+    <link href="http://jrodsmitty.github.io/blog/2015/02/17/livemode-dot-config-and-multi-site-sitecore-development/"/>
+    <updated>2015-02-17T21:26:21-06:00</updated>
+    <id>http://jrodsmitty.github.io/blog/2015/02/17/livemode-dot-config-and-multi-site-sitecore-development</id>
+    <content type="html"><![CDATA[<!-- more -->
+
+
+<h2>But MOM, I don&rsquo;t WANNA click Publish!</h2>
+
+<p>If you don&rsquo;t want to bother publishing your local Sitecore site every time you make a change (especially when developing), there&rsquo;s a nifty file named <strong>LiveMode.config.example</strong>, located in <strong>C:\inetpub\wwwroot\yoursitecoresite\Website\App_Config\Include\ </strong>. It comes with the sitecore install, and for a normal single-site Sitecore instance, simply removing the &ldquo;.example&rdquo; from the filename will let you view your site using the <strong>master</strong> database instead of the live <strong>web</strong> database. This has many advantages as a developer, namely, time-savings. Every keystroke and mouseclick counts!</p>
+
+<h2>What about in a multi-site instance?</h2>
+
+<p>When you are running two or more sites concurrently in one Sitecore instance, the recommended approach is to define each site&rsquo;s host header and other information in a <strong>SiteDefinition.config</strong> file (a much better approach then directly editing the Web.config file). This file also specifies the database a site should read from. Note the <strong>database=&ldquo;master&rdquo;</strong> below:
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;site name="yoursitecoresite" patch:before="site[@name='website']"
+</span><span class='line'>            virtualFolder="/"
+</span><span class='line'>            physicalFolder="/Sites/yoursitecoresite"
+</span><span class='line'>            rootPath="/sitecore/content/yoursitecoresite"
+</span><span class='line'>            startItem="/home"
+</span><span class='line'>            database="master"
+</span><span class='line'>            domain="extranet"
+</span><span class='line'>            allowDebug="true"
+</span><span class='line'>            cacheHtml="true"
+</span><span class='line'>            htmlCacheSize="10MB"
+</span><span class='line'>            enablePreview="true"
+</span><span class='line'>            enableWebEdit="true"
+</span><span class='line'>            enableDebugger="true"
+</span><span class='line'>            disableClientData="false"
+</span><span class='line'>            hostName="local.yoursitecoresite.org"
+</span><span class='line'>            enableFallback="false" /></span></code></pre></td></tr></table></div></figure></p>
+
+<p>It turns out that when working in a multi-site setup in one instance of Sitecore, the SiteDefinition.config file takes precedent, and the LiveMode.config file is completely ignored. So in our project(s), we don&rsquo;t even bother to deploy LiveMode.config to a development environment. It&rsquo;s redundant.</p>
+
+<h2>Cool! So does this mean I can just use Live Mode in production, and skip having to hit publish?</h2>
+
+<p>I <strong>DO NOT</strong> recommend running your live site off of the master database! You should isolate your live content from the &ldquo;in-progress&rdquo; editing content to avoid major workflow headaches, if it&rsquo;s more than just you making changes. Plus, using master/web is the recommended approach from Sitecore, anyhow.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Team Development for Sitecore (TDS), GitHub, TeamCity, and Line Endings, Oh My!]]></title>
+    <link href="http://jrodsmitty.github.io/blog/2015/01/20/line-endings-and-tds/"/>
+    <updated>2015-01-20T22:57:57-06:00</updated>
+    <id>http://jrodsmitty.github.io/blog/2015/01/20/line-endings-and-tds</id>
+    <content type="html"><![CDATA[<!-- more -->
+
+
+<blockquote><p>Length of field content does not match the content-length attribute</p></blockquote>
+
+<h2>Update - 2/17/2015:</h2>
+
+<p>So&hellip; although we had thought we solved our LF/CRLF line ending problems, they kept appearing again and again when we least expected them. We finally figured out the root cause of this, and put it to rest. The real issue that started this whole ordeal was that our local <strong>.gitconfig</strong> file contained the line &ldquo;autocrlf = true&rdquo;. Whenever we would run a <strong>git add</strong> command, git was replacing all \n (LF - line feed) endings with \r\n (CRLF - carriage return, line feed). TDS serializes everything using LF, and it stores content-length values in the .item files based on that. So when git changes line endings to CRLF, it is effectively adding more characters to a field&rsquo;s value in the .item file, but does not increment the field&rsquo;s content-length value to match. That mis-match of field values to their content-length is what causes the error.</p>
+
+<p>To fix this, we did the following:</p>
+
+<p>1) Updated our .gitconfig files [core] section to have the values &ldquo;autocrlf = false&rdquo; and, just to be explicitly clear, we added &ldquo;eol = lf&rdquo; as well.
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>[core]
+</span><span class='line'>   autocrlf = false
+</span><span class='line'>   eol = lf</span></code></pre></td></tr></table></div></figure>
+2) Removed all tracked items from our TDS projects</p>
+
+<p>3) Re-added all TDS items, so they got re-serialized with just LF.</p>
+
+<p><em>NOTE:</em>  If you later want git to use auto CRLF replacement on other projects, you would then need to add a <strong>.gitattributes</strong> file at the root of your other project(s) directory, and define &ldquo;eol = crlf&rdquo; instead. See <a href="http://git-scm.com/book/en/v2/Customizing-Git-Git-Attributes">http://git-scm.com/book/en/v2/Customizing-Git-Git-Attributes</a> for more details on .gitattributes files.</p>
+
+<hr />
+
+<h3>What you see below is OLD and OUT-OF-DATE, but it&rsquo;s here if you want to read the original saga</h3>
+
+<hr />
+
+<p>Our development team has been running into a lot of situations lately where TDS items in our project are showing up as changed, when nobody had changed anything. The message we were seeing was something like: &ldquo;Failed to load version 1 for language en
+Length of field content does not match the content-length attribute. Field name: Value, field id: {C8B4641D-C20D-4424-84B3-5ED37AF9CD33}&rdquo;</p>
+
+<h2>First Try (fix content-length in *.item files)</h2>
+
+<p>After some Googling, we found an article that mentioned the error we were seeing (<a href="https://theagilecoder.wordpress.com/2013/03/02/tds-so-youre-deploying-sitecore-to-a-new-environment/">https://theagilecoder.wordpress.com/2013/03/02/tds-so-youre-deploying-sitecore-to-a-new-environment/</a>) and we were able to fix the issues manually as they came up, by editing the *.item files and updating the content-length value(s). We did this for awhile, but the issue kept coming back, and we were all getting pretty frustrated.</p>
+
+<h2>Git &lsquo;er Done! (make .gitattributes smarter)</h2>
+
+<p>After reaching out to Hedgehog Development, who makes the TDS product, we confirmed (as we had suspected) that the issue had to do with line endings getting changed at some point in the process. We were directed to a really helpful article by Sean Kearney (<a href="http://seankearney.com/post/Using-Team-Development-for-Sitecore-with-GitHub">http://seankearney.com/post/Using-Team-Development-for-Sitecore-with-GitHub</a>) which tells you to add a line to your .gitattributes file that says &ldquo;*.item -text&rdquo; . So all will we swell then, right? Well, if you have any previous files that still contain mixed LF and CRLF (which are what cause that error), you&rsquo;ll want to normalize those to all use CRLF only (if on Windows, in our case). Sublime Text has a nice plugin called &ldquo;Line Endings Unify&rdquo; that will let you batch update files to normalize the line endings.</p>
+
+<h2>Final Piece (TeamCity plugin setting)</h2>
+
+<p>So updating our .gitattributes file seemed to fix our issues. That is, until we added TeamCity into the mix. We didn&rsquo;t have problems locally anymore, but when TeamCity was checking out the latest files from our GitHub repo, it was failing to build the TDS package. It was failing with the same error as before. After more head bashing and another email or two to Hedgehog Development, we learned that we needed to enable the &ldquo;convert line endings to CRLF&rdquo; in the Git VCS plugin settings for TeamCity (<a href="https://confluence.jetbrains.com/display/TCD8/Git+%28JetBrains%29">https://confluence.jetbrains.com/display/TCD8/Git+%28JetBrains%29</a>).</p>
+
+<h2>The Aftermath</h2>
+
+<p>It&rsquo;s only been a week since we implemented this fix, but so far we haven&rsquo;t seen this error come up again. We have a bunch of developers working constantly during the day on project features - branches are getting pull-requested, merged, built, deployed, and so far, no issues with line endings. We can only hope the worst is behind us.</p>
+
+<h2>Sources</h2>
+
+<ul>
+<li><a href="https://theagilecoder.wordpress.com/2013/03/02/tds-so-youre-deploying-sitecore-to-a-new-environment/">https://theagilecoder.wordpress.com/2013/03/02/tds-so-youre-deploying-sitecore-to-a-new-environment/</a></li>
+<li><a href="http://seankearney.com/post/Using-Team-Development-for-Sitecore-with-GitHub">http://seankearney.com/post/Using-Team-Development-for-Sitecore-with-GitHub</a></li>
+<li><a href="https://confluence.jetbrains.com/display/TCD8/Git+%28JetBrains%29">https://confluence.jetbrains.com/display/TCD8/Git+%28JetBrains%29</a></li>
+<li>The great support team at Hedgehog Development (<a href="&#x6d;&#97;&#x69;&#x6c;&#x74;&#x6f;&#58;&#x73;&#x75;&#112;&#112;&#111;&#114;&#x74;&#64;&#104;&#104;&#111;&#x67;&#x64;&#x65;&#x76;&#x2e;&#x63;&#x6f;&#x6d;">&#115;&#x75;&#x70;&#x70;&#111;&#x72;&#x74;&#x40;&#104;&#x68;&#111;&#103;&#100;&#x65;&#x76;&#x2e;&#x63;&#111;&#x6d;</a>)</li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Submitting a Module to the Sitecore Marketplace]]></title>
+    <link href="http://jrodsmitty.github.io/blog/2014/12/23/submitting-a-module-to-the-sitecore-marketplace/"/>
+    <updated>2014-12-23T20:33:56-06:00</updated>
+    <id>http://jrodsmitty.github.io/blog/2014/12/23/submitting-a-module-to-the-sitecore-marketplace</id>
+    <content type="html"><![CDATA[<!-- more -->
+
+
+<blockquote><p>I recently released my first module on the Sitecore Marketplace. It&rsquo;s a super-simple, highly portable Facebook Like Button MVC View Rendering (<a href="https://marketplace.sitecore.net/Modules/Facebook_Like_Button.aspx">https://marketplace.sitecore.net/Modules/Facebook_Like_Button.aspx</a>).</p></blockquote>
+
+<h2>I Started By Setting Some Ground Rules</h2>
+
+<p>For this exercise, I laid out a couple ground rules for myself, so I could actually finish something. Like many developers, I add some features, refactor, add some more stuff, set it aside awhile, forget about it, and then when I come back to it, it&rsquo;s not relevant anymore and I scrap it. These are the rules I set for myself.</p>
+
+<h3>1. Choosing something easy (but annoying) to implement every time it&rsquo;s needed</h3>
+
+<p>I often get asked to include a Facebook Like button in the footer of a site. Sure, it&rsquo;s a copy and paste thing, but it&rsquo;s still mind-numbing work, and it&rsquo;s still not editable by a content author. It would be nice to have it editable (and translatable for a multi-site setup so you can have a different &ldquo;like&rdquo; url for different languages, for instance).</p>
+
+<h3>2. Following the KISS principle</h3>
+
+<p>Since there was so little logic with the solution for this, I really didn&rsquo;t feel it warranted putting the logic in a Controller or storing the field values in a Model, which would have generated an output .dll. This decision had the side benefit of allowing a developer to easily modify the code if needed, since  all the logic lives in the .cshtml file itself in the /Views folder.</p>
+
+<h3>3. Setting a deadline</h3>
+
+<p>Due to many half-done and forgotton pet projects in my past, I chose to give myself a tight deadline so I would be forced to manage scope. I work well against tight deadlines at work, so why would I tend to be so extreme the opposite for personal projects? I chose a limit of 8 hours or less for this.</p>
+
+<h3>4. Submitting to the Marketplace</h3>
+
+<p>The submission process was easy. You give a name to your module, add a description, some screenshots, documentation as needed, upload your .zip package file, and you&rsquo;re done. Then a Sitecore employee tests your module, and once they confirm it works as advertised, they approve and publish it. Not too complicated.</p>
+
+<h3>Completed</h3>
+
+<p>At the end of the day, that module does only one thing really well, but it met all the criteria I had laid out. I got my feet wet, and know what to expect next time.</p>
+]]></content>
+  </entry>
+  
+</feed>

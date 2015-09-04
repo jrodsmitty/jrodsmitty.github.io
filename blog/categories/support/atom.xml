@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Support | Web Dev Ramblin' Man]]></title>
+  <link href="http://jrodsmitty.github.io/blog/categories/support/atom.xml" rel="self"/>
+  <link href="http://jrodsmitty.github.io/"/>
+  <updated>2015-09-03T23:00:56-05:00</updated>
+  <id>http://jrodsmitty.github.io/</id>
+  <author>
+    <name><![CDATA[Jarrod Smith]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Sitecore 7.5 Analytics Not Working]]></title>
+    <link href="http://jrodsmitty.github.io/blog/2015/09/03/sitecore-7-dot-5-analytics-not-working/"/>
+    <updated>2015-09-03T21:47:47-05:00</updated>
+    <id>http://jrodsmitty.github.io/blog/2015/09/03/sitecore-7-dot-5-analytics-not-working</id>
+    <content type="html"><![CDATA[<!-- more -->
+
+
+<blockquote><p>We&rsquo;ve avoided discussing upgrading to Sitecore 8 since we just got done with getting 7.5 up and running, but it looks like we may not have a choice.</p></blockquote>
+
+<p>When we first built out our Sitecore environments a little less than a year ago, we had started on version 7.2. We later upgraded to 7.5 because we were trying to stay ahead of the curve since we had not done any DMS/personalization work yet. We wanted to get our own MongoDB instances (master and mirror) set up (hosted on Unix machines by our team) to be all set to do DMS work when the time came.</p>
+
+<p>We soon realized that we had a problem. Sitecore was seeing all analytics requests coming from our site as if it was a &ldquo;robot.&rdquo; We followed some advice we found in an  article to add the &ldquo;VisitorIdentification()&rdquo; call in our main base layout cshtml view (<a href="http://www.daveleigh.co.uk/sitecore-7-5-mvc-enabling-analytics-xdb/">http://www.daveleigh.co.uk/sitecore-7-5-mvc-enabling-analytics-xdb/</a>). This did not get things working as we would have expected. We disabled the outbound filtering which as I understand it limits what noise can be tracked by mongo, and then we saw things getting tracked. But the minute we re-enabled the outbound filtering, the tracking stopped. Our site was still being seen as a robot.</p>
+
+<p>After months of back and forth with Sitecore support trying to first determine the issue and then see about a fix, we&rsquo;re now at the point where Sitecore is basically telling us we should upgrade to version 8. Even the 7.5 download page of the SDN site has a red-text disclaimer telling people to install version 8 instead for better support. Having talked to a couple MVPs about their upgrade experiences, upgrading to 8 has me a bit nervous. Previously, we opted for a fresh install of 7.5 instead of following the documented upgrade path from 7.2. We just felt it was much cleaner to do so. Only time will tell what we decide to do here, but the fear and intrigue of the unknown is what keeps me in this industry.</p>
+
+<p>Onward!</p>
+]]></content>
+  </entry>
+  
+</feed>
