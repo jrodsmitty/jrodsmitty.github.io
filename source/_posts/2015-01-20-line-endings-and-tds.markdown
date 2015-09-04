@@ -7,8 +7,30 @@ categories: [Sitecore, GitHub, TeamCity, TDS, Gotchas]
 description: 
 keywords: Sitecore, GitHub, TeamCity, TDS, Team Development for Sitecore, Line Endings, CRLF, Gotchas
 ---
-
+<!-- more -->
 > Length of field content does not match the content-length attribute
+
+## Update - 2/17/2015:
+So... although we had thought we solved our LF/CRLF line ending problems, they kept appearing again and again when we least expected them. We finally figured out the root cause of this, and put it to rest. The real issue that started this whole ordeal was that our local __.gitconfig__ file contained the line "autocrlf = true". Whenever we would run a __git add__ command, git was replacing all \n (LF - line feed) endings with \r\n (CRLF - carriage return, line feed). TDS serializes everything using LF, and it stores content-length values in the .item files based on that. So when git changes line endings to CRLF, it is effectively adding more characters to a field's value in the .item file, but does not increment the field's content-length value to match. That mis-match of field values to their content-length is what causes the error.
+
+To fix this, we did the following:
+
+1) Updated our .gitconfig files [core] section to have the values "autocrlf = false" and, just to be explicitly clear, we added "eol = lf" as well.
+{% codeblock %}
+[core]
+   autocrlf = false
+   eol = lf
+{% endcodeblock %}
+2) Removed all tracked items from our TDS projects
+
+3) Re-added all TDS items, so they got re-serialized with just LF.
+
+*NOTE:*  If you later want git to use auto CRLF replacement on other projects, you would then need to add a __.gitattributes__ file at the root of your other project(s) directory, and define "eol = crlf" instead. See http://git-scm.com/book/en/v2/Customizing-Git-Git-Attributes for more details on .gitattributes files.
+
+----
+
+### What you see below is OLD and OUT-OF-DATE, but it's here if you want to read the original saga
+----
 
 Our development team has been running into a lot of situations lately where TDS items in our project are showing up as changed, when nobody had changed anything. The message we were seeing was something like: "Failed to load version 1 for language en
 Length of field content does not match the content-length attribute. Field name: Value, field id: {C8B4641D-C20D-4424-84B3-5ED37AF9CD33}"

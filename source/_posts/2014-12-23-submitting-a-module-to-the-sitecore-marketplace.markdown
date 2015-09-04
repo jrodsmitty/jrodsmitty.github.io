@@ -7,7 +7,7 @@ categories: [Sitecore, Sitecore Marketplace, Marketplace, Community, Contributio
 description: The Process of Creating a Sitecore Module For the Marketplace
 keywords: Sitecore, Sitecore Marketplace, Community
 ---
-
+<!-- more -->
 > I recently released my first module on the Sitecore Marketplace. It's a super-simple, highly portable Facebook Like Button MVC View Rendering (https://marketplace.sitecore.net/Modules/Facebook_Like_Button.aspx).
 
 ## I Started By Setting Some Ground Rules ##

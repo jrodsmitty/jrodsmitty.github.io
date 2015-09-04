@@ -7,7 +7,7 @@ categories: [Sitecore, Add to here button, Page Editor]
 description: How to fix 'Add to here' visual bug in page editor
 keywords: Sitecore, Add to here, Page Editor
 ---
-
+<!-- more -->
 Ever since we first installed Sitecore 7.2 rev. 140228 (first release), we have noticed an odd visual bug in Page Editor. We have since uninstall/reinstalled to be at the latest release: 7.2 rev. 140526. However, we still see the issue. There appears to be a small rectangular "knock-out" overlaying the bottom edge of the "Add to here" button. I was able to track it down to the "webedit.css" file in the root /Website folder where Sitecore is installed.
 
 {% img /images/add-here-bug.png [100%] [auto] [Page Editor Bug [Page Editor Bug]] %}
