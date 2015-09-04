@@ -4,11 +4,7 @@
   <title><![CDATA[Category: Teamcity | Web Dev Ramblin' Man]]></title>
   <link href="http://jrodsmitty.github.io/blog/categories/teamcity/atom.xml" rel="self"/>
   <link href="http://jrodsmitty.github.io/"/>
-<<<<<<< HEAD
-  <updated>2015-09-03T23:00:56-05:00</updated>
-=======
-  <updated>2015-09-02T21:25:29-05:00</updated>
->>>>>>> cb56240501d7a6b61a3e8dbeed0a0ea04b3b258d
+  <updated>2015-09-03T23:09:06-05:00</updated>
   <id>http://jrodsmitty.github.io/</id>
   <author>
     <name><![CDATA[Jarrod Smith]]></name>
@@ -77,11 +73,7 @@ Length of field content does not match the content-length attribute. Field name:
 <li><a href="https://theagilecoder.wordpress.com/2013/03/02/tds-so-youre-deploying-sitecore-to-a-new-environment/">https://theagilecoder.wordpress.com/2013/03/02/tds-so-youre-deploying-sitecore-to-a-new-environment/</a></li>
 <li><a href="http://seankearney.com/post/Using-Team-Development-for-Sitecore-with-GitHub">http://seankearney.com/post/Using-Team-Development-for-Sitecore-with-GitHub</a></li>
 <li><a href="https://confluence.jetbrains.com/display/TCD8/Git+%28JetBrains%29">https://confluence.jetbrains.com/display/TCD8/Git+%28JetBrains%29</a></li>
-<<<<<<< HEAD
-<li>The great support team at Hedgehog Development (<a href="&#109;&#97;&#105;&#108;&#x74;&#111;&#x3a;&#x73;&#117;&#112;&#112;&#x6f;&#114;&#116;&#64;&#104;&#x68;&#111;&#x67;&#x64;&#101;&#x76;&#46;&#x63;&#111;&#109;">&#115;&#x75;&#x70;&#x70;&#111;&#x72;&#116;&#x40;&#104;&#104;&#x6f;&#103;&#100;&#x65;&#118;&#46;&#x63;&#111;&#x6d;</a>)</li>
-=======
-<li>The great support team at Hedgehog Development (<a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#x73;&#117;&#112;&#x70;&#x6f;&#114;&#x74;&#x40;&#x68;&#104;&#111;&#x67;&#x64;&#101;&#118;&#46;&#x63;&#x6f;&#x6d;">&#115;&#x75;&#x70;&#x70;&#111;&#114;&#x74;&#x40;&#x68;&#x68;&#111;&#x67;&#x64;&#101;&#118;&#46;&#x63;&#x6f;&#109;</a>)</li>
->>>>>>> cb56240501d7a6b61a3e8dbeed0a0ea04b3b258d
+<li>The great support team at Hedgehog Development (<a href="&#109;&#x61;&#105;&#108;&#116;&#x6f;&#58;&#115;&#117;&#x70;&#112;&#111;&#114;&#116;&#x40;&#104;&#x68;&#x6f;&#103;&#100;&#x65;&#x76;&#x2e;&#x63;&#x6f;&#109;">&#115;&#x75;&#x70;&#x70;&#x6f;&#114;&#x74;&#64;&#104;&#x68;&#111;&#103;&#100;&#101;&#118;&#x2e;&#x63;&#111;&#109;</a>)</li>
 </ul>
 
 ]]></content>

@@ -4,11 +4,7 @@
   <title><![CDATA[Category: Sitecore | Web Dev Ramblin' Man]]></title>
   <link href="http://jrodsmitty.github.io/blog/categories/sitecore/atom.xml" rel="self"/>
   <link href="http://jrodsmitty.github.io/"/>
-<<<<<<< HEAD
-  <updated>2015-09-03T23:00:56-05:00</updated>
-=======
-  <updated>2015-09-02T21:25:29-05:00</updated>
->>>>>>> cb56240501d7a6b61a3e8dbeed0a0ea04b3b258d
+  <updated>2015-09-03T23:09:06-05:00</updated>
   <id>http://jrodsmitty.github.io/</id>
   <author>
     <name><![CDATA[Jarrod Smith]]></name>
@@ -18,7 +14,6 @@
 
   
   <entry>
-<<<<<<< HEAD
     <title type="html"><![CDATA[Sitecore 7.5 Analytics Not Working]]></title>
     <link href="http://jrodsmitty.github.io/blog/2015/09/03/sitecore-7-dot-5-analytics-not-working/"/>
     <updated>2015-09-03T21:47:47-05:00</updated>
@@ -39,8 +34,6 @@
   </entry>
   
   <entry>
-=======
->>>>>>> cb56240501d7a6b61a3e8dbeed0a0ea04b3b258d
     <title type="html"><![CDATA[Sitecore Experienced! Podcast Episode 7]]></title>
     <link href="http://jrodsmitty.github.io/blog/2015/09/02/sitecore-experienced-podcast-episode-7/"/>
     <updated>2015-09-02T21:11:16-05:00</updated>
@@ -170,11 +163,7 @@ Length of field content does not match the content-length attribute. Field name:
 <li><a href="https://theagilecoder.wordpress.com/2013/03/02/tds-so-youre-deploying-sitecore-to-a-new-environment/">https://theagilecoder.wordpress.com/2013/03/02/tds-so-youre-deploying-sitecore-to-a-new-environment/</a></li>
 <li><a href="http://seankearney.com/post/Using-Team-Development-for-Sitecore-with-GitHub">http://seankearney.com/post/Using-Team-Development-for-Sitecore-with-GitHub</a></li>
 <li><a href="https://confluence.jetbrains.com/display/TCD8/Git+%28JetBrains%29">https://confluence.jetbrains.com/display/TCD8/Git+%28JetBrains%29</a></li>
-<<<<<<< HEAD
-<li>The great support team at Hedgehog Development (<a href="&#x6d;&#97;&#x69;&#x6c;&#x74;&#x6f;&#58;&#x73;&#x75;&#112;&#112;&#111;&#114;&#x74;&#64;&#104;&#104;&#111;&#x67;&#x64;&#x65;&#x76;&#x2e;&#x63;&#x6f;&#x6d;">&#115;&#x75;&#x70;&#x70;&#111;&#x72;&#x74;&#x40;&#104;&#x68;&#111;&#103;&#100;&#x65;&#x76;&#x2e;&#x63;&#111;&#x6d;</a>)</li>
-=======
-<li>The great support team at Hedgehog Development (<a href="&#109;&#x61;&#x69;&#x6c;&#116;&#x6f;&#x3a;&#x73;&#x75;&#112;&#112;&#111;&#x72;&#116;&#64;&#x68;&#104;&#x6f;&#103;&#100;&#101;&#x76;&#46;&#x63;&#x6f;&#109;">&#x73;&#x75;&#x70;&#112;&#x6f;&#x72;&#116;&#64;&#x68;&#x68;&#x6f;&#103;&#100;&#101;&#x76;&#x2e;&#99;&#x6f;&#109;</a>)</li>
->>>>>>> cb56240501d7a6b61a3e8dbeed0a0ea04b3b258d
+<li>The great support team at Hedgehog Development (<a href="&#109;&#x61;&#x69;&#108;&#x74;&#x6f;&#x3a;&#x73;&#117;&#x70;&#112;&#x6f;&#114;&#x74;&#64;&#104;&#x68;&#x6f;&#103;&#100;&#101;&#x76;&#x2e;&#99;&#x6f;&#x6d;">&#x73;&#117;&#112;&#x70;&#111;&#x72;&#116;&#x40;&#x68;&#x68;&#111;&#103;&#100;&#101;&#118;&#x2e;&#99;&#111;&#109;</a>)</li>
 </ul>
 
 ]]></content>
@@ -216,123 +205,4 @@ Length of field content does not match the content-length attribute. Field name:
 ]]></content>
   </entry>
   
-<<<<<<< HEAD
-=======
-  <entry>
-    <title type="html"><![CDATA[Resolving JQuery Conflicts in Page Editor]]></title>
-    <link href="http://jrodsmitty.github.io/blog/2014/11/12/resolving-jquery-conflicts-in-page-editor/"/>
-    <updated>2014-11-12T19:49:03-06:00</updated>
-    <id>http://jrodsmitty.github.io/blog/2014/11/12/resolving-jquery-conflicts-in-page-editor</id>
-    <content type="html"><![CDATA[<!-- more -->
-
-
-<p>In the current project I&rsquo;m working on, we are using Bootstrap&rsquo;s &ldquo;collapse&rdquo; functionality (<a href="http://getbootstrap.com/javascript/#collapse">http://getbootstrap.com/javascript/#collapse</a>) for some of our components. Our requirements dictate that all accordions on the page be in the collapsed state, so in &ldquo;Edit&rdquo; mode of Page Editor, we&rsquo;d like them all expanded for ease of editing. The easiest way to accomplish this is to check for the PageMode, and execute some JQuery code to .collapse(&lsquo;show&rsquo;) all accordions on the page.</p>
-
-<p>This seems like a fairly simple task (assuming we know JQuery decently well), but we run into some issues because our page&rsquo;s layout is using JQuery 2.1.1, but Sitecore loads JQuery 1.10.2 when using Page Editor, so we run into a JQuery version conflict, and in our case, all our calls to $(element).on(&lsquo;click&rsquo;, function() {..}) fail, because 1.10.2 doesn&rsquo;t support the .on() method.</p>
-
-<h2>There are a couple ways to deal with this:</h2>
-
-<ol>
-<li>Give up using a different version of JQuery, and just include and use version 1.10.2 throughout the site.</li>
-<li>Utilize JQuery.noConflict() and some other tricks to get things to work with version 2.1.1.</li>
-</ol>
-
-
-<p>We really wanted to use version 2.x of JQuery since our project requirements let us ignore (for the most part) older browsers, and all the code-bloat in JQuery 1.x that handles older browser quirks for browsers like Internet Explorer has been removed in v2. So for our situation, we chose to go with option 2.</p>
-
-<p>Page Editor loads its version of JQuery after we do during the page rendering (ours is within the head tag), so by the time we call our JQuery code, the global &ldquo;JQuery&rdquo; object now represents the older 1.10.2 version instead of 2.1.1, so our code throws the error &ldquo;Uncaught TypeError: undefined is not a function&rdquo;</p>
-
-<h3>Here was our solution:</h3>
-
-<p><em>NOTE: We&rsquo;re using an MVC view for our component</em></p>
-
-<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>@using Sitecore.Mvc;&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;div class="panel panel-default">
-</span><span class='line'>    &lt;div class="panel-heading collapsed" data-toggle="collapse-next" aria-expanded="false">
-</span><span class='line'>        &lt;h4 class="panel-title">
-</span><span class='line'>            @Html.Sitecore().Field("Heading")
-</span><span class='line'>        &lt;/h4>
-</span><span class='line'>    &lt;/div>
-</span><span class='line'>
-</span><span class='line'>    &lt;div class="panel-collapse collapse">
-</span><span class='line'>        &lt;div class="panel-body">
-</span><span class='line'>            @Html.Sitecore().Placeholder("collapsiblecontent")
-</span><span class='line'>        &lt;/div>
-</span><span class='line'>    &lt;/div>
-</span><span class='line'>&lt;/div>
-</span><span class='line'>
-</span><span class='line'>
-</span><span class='line'>&lt;p>@if (Sitecore.Context.PageMode.IsPreview)
-</span><span class='line'>{
-</span><span class='line'>    &lt;script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js">&lt;/script>
-</span><span class='line'>}&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;script>
-</span><span class='line'>    var $jq2 = jQuery.noConflict();
-</span><span class='line'>    $jq2(function() {
-</span><span class='line'>        if (IsPageEditorEditing()) {
-</span><span class='line'>            $jq2('[data-toggle=collapse-next]').next().collapse('show');
-</span><span class='line'>        } else {
-</span><span class='line'>            $jq2('[data-toggle=collapse-next]').next().removeClass('in');
-</span><span class='line'>            $jq2('[data-toggle=collapse-next]').on('click', function() {
-</span><span class='line'>                $jq2(this).next().collapse('toggle');
-</span><span class='line'>            });
-</span><span class='line'>        }
-</span><span class='line'>    });
-</span><span class='line'>&lt;/script>
-</span><span class='line'>
-</span><span class='line'>
-</span><span class='line'>&lt;p></span></code></pre></td></tr></table></div></figure></p>
-
-<ol>
-<li>LINE 17: To combat this &ldquo;re-defining&rdquo; of JQuery version, we first re-include our version of JQuery if we&rsquo;re in Preview Mode.</li>
-<li>LINE 23: We add our code using a re-scoped variable for the global &ldquo;jQuery&rdquo; object.</li>
-<li>LINE 49: In active &ldquo;editing&rdquo; mode, we force all accordions to stay expanded, otherwise they function normally.</li>
-</ol>
-
-
-<p>Although it feels dirty re-including jquery like this, if you really need to be using a different version of JQuery other than what Sitecore includes, this is (at least one) workable way to accomplish that.</p>
-]]></content>
-  </entry>
-  
->>>>>>> cb56240501d7a6b61a3e8dbeed0a0ea04b3b258d
 </feed>
